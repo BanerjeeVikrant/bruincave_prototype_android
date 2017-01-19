@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:title="Feedback" />
+        <item
+            android:id="@+id/nav_faq"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout" />
+    </group>
+
+    <item android:title="Branham Trends">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="Test 1" />
+            <item
+                android:id="@+id/nav_send"
+                android:title="Test 2" />
+        </menu>
+    </item>
+
+</menu>

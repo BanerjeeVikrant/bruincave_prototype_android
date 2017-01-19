@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.banerjee.bruincave_new.settings_layout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Username"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:paddingRight="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="-15dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText3"
+        android:paddingRight="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="-15dp"
+        android:layout_below="@+id/editText2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="42dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Firstname"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/editText2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText4"
+        android:paddingRight="25dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignEnd="@+id/editText3"
+        android:layout_alignStart="@+id/editText3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Lastname"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/editText3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Bio"
+        android:id="@+id/textView5"
+        android:layout_below="@+id/editText4"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText5"
+        android:layout_below="@+id/textView5"
+        android:layout_alignStart="@+id/editText4"
+        android:layout_alignEnd="@+id/editText4"
+        android:layout_marginTop="15dp"
+        android:minHeight="100dp"
+        android:nestedScrollingEnabled="true"
+        android:maxHeight="100dp" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Save Changes"
+        android:id="@+id/button"
+        android:layout_below="@+id/editText5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>
