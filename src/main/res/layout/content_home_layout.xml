@@ -141,13 +141,12 @@
                                 android:layout_marginTop="15dp"
                                 android:textSize="20dp" />
 
-                            <LinearLayout
-                                android:orientation="vertical"
+                            <ListView
                                 android:layout_width="match_parent"
-                                android:layout_height="fill_parent"
-                                android:id="@+id/userswrapper">
+                                android:layout_height="wrap_content"
+                                android:id="@+id/usersMsgListView">
 
-                            </LinearLayout>
+                            </ListView>
 
                         </LinearLayout>
 

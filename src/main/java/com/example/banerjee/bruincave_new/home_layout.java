@@ -285,7 +285,9 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     }
 
     public void bringUsersMsg(int o, String username, String str){
+        final home_layout parent_this = this;
         Response.Listener<String> usersListener = new Response.Listener<String>() {
+            private String[] info;
             @Override
             public void onResponse(String users) {
                 try {
@@ -293,58 +295,25 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     Log.d("users:", users);
                     if (usersResponse != null) {
                         JSONArray usersArray = usersResponse.getJSONArray("usersMsg");
-                        LinearLayout usersLayout = (LinearLayout) findViewById(R.id.userswrapper);
+                        //LinearLayout usersLayout = (LinearLayout) findViewById(R.id.userswrapper);
+                        ListView usersMsgListView = (ListView) findViewById(R.id.usersMsgListView);
+                        ArrayList<BringUsersMsg> info = new ArrayList<BringUsersMsg>();
 
                         for (int i = 0; i < users.length(); i++) {
                             JSONObject usersObject = usersArray.getJSONObject(i);
                             Log.d("users-id:", "" + usersObject.getInt("id"));
-                            int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-                            LinearLayout homePost = new LinearLayout(getApplicationContext());
-                            homePost.setBackgroundResource(R.color.white);
 
-                            homePost.setOrientation(LinearLayout.VERTICAL);
-                            homePost.setPaddingRelative(0, 0, 0, 0);
-                            LinearLayout.LayoutParams layout_141 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            layout_141.setMargins(0, marginTop, 0, 0);
-                            homePost.setLayoutParams(layout_141);
-                            usersLayout.addView(homePost);
+                            BringUsersMsg newMsgsUsers =  new BringUsersMsg();
+                            newMsgsUsers.fromPic = usersObject.getString("fromPic");
+                            newMsgsUsers.name = usersObject.getString("name");
+                            newMsgsUsers.body = usersObject.getString("body");
 
-                            LinearLayout informations = new LinearLayout(getApplicationContext());
-                            informations.setOrientation(LinearLayout.HORIZONTAL);
-                            informations.setPadding(0, 0, 15, 0);
-                            LinearLayout.LayoutParams layout_501 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            informations.setLayoutParams(layout_501);
-                            homePost.addView(informations);
+                            info.add(newMsgsUsers);
 
-                            String text = usersObject.getString("fromPic");
-                            ImageView imageView1 = new ImageView(getApplicationContext());
-                            imageView1.setAdjustViewBounds(true);
-                            int imagePicHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-                            int imagePicWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imagePicHeight, imagePicWidth);
-                            lp.setMargins(40, 40, 15, 40);
-                            imageView1.setLayoutParams(lp);
-                            //new ImageLinkLoad(text, imageView1).execute();
-                            informations.addView(imageView1);
-
-
-                            TextView name = new TextView(getApplicationContext());
-                            name.setText(usersObject.getString("name"));
-                            name.setTextSize(16);
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            params.setMargins(15, 70, 15, 30);
-                            name.setLayoutParams(params);
-                            informations.addView(name);
-
-                            TextView txt = new TextView(getApplicationContext());
-                            txt.setText(usersObject.getString("body"));
-                            txt.setTextSize(16);
-                            LinearLayout.LayoutParams txtP = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            txtP.setMargins(15, 70, 15, 30);
-                            txt.setLayoutParams(txtP);
-                            informations.addView(txt);
 
                         }
+                        UsersMsgAdapter usersMsgAdapter = new UserMsgAdapter(parent_this, info);
+                        usersMsgListView.setAdapter(UsersMsgAdapter);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
