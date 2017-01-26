@@ -1,0 +1,9 @@
+package com.example.banerjee.bruincave_new;
+
+/**
+ * Created by Vikrant Banerjee on 1/23/2017.
+ */
+public class Crush {
+    public String time_added;
+    public String body;
+}

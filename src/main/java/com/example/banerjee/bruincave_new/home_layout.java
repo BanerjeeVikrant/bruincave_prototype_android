@@ -18,8 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -32,12 +36,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class home_layout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private int offset = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
+
 
         final String MY_PREFS_NAME = "userinfo";
 
@@ -93,32 +102,41 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            bringPosts(0,username, username);
+            bringPosts(offset,username, username);
             bringCrush(0);
             bringNotifications(0,username);
             bringUsersMsg(0,username, "");
 
+            /*
+            ListView yourListView = (ListView) findViewById(R.id.listView);
+            String failed = "failed";
 
-            ScrollView homeScroll = (ScrollView) findViewById(R.id.homeScrollbar);
-            LinearLayout homeScrollbar = (LinearLayout) findViewById(R.id.homeScroll);
-            ScrollView crushScroll = (ScrollView) findViewById(R.id.crushScrollbar);
-            LinearLayout crushScrollbar = (LinearLayout) findViewById(R.id.crushScroll);
-            ScrollView notificationsScroll = (ScrollView) findViewById(R.id.notificationsScrollbar);
-            LinearLayout notificationsScrollbar = (LinearLayout) findViewById(R.id.notificationsScroll);
 
-            if(homeScrollbar.getMeasuredHeight() >= homeScroll.getScrollY() + homeScroll.getHeight()) {
+            Log.d("", yourListView.getAdapter().getCount() + "");
 
-            }
-            else {
+            if (yourListView.getLastVisiblePosition() == yourListView.getAdapter().getCount() - 1 && yourListView.getChildAt(yourListView.getChildCount() - 1).getBottom() <= yourListView.getHeight()) {
+                //It is scrolled all the way down here
 
             }
+
+            */
+
+            //final ScrollView homeScroll = (ScrollView) findViewById(R.id.homeScrollbar);
+            //final LinearLayout homeScrollbar = (LinearLayout) findViewById(R.id.homeScroll);
+            //ScrollView crushScroll = (ScrollView) findViewById(R.id.crushScrollbar);
+            //LinearLayout crushScrollbar = (LinearLayout) findViewById(R.id.crushScroll);
+            //ScrollView notificationsScroll = (ScrollView) findViewById(R.id.notificationsScrollbar);
+            //LinearLayout notificationsScrollbar = (LinearLayout) findViewById(R.id.notificationsScroll);
+
+
+
         }
     }
 
     public void bringPosts(int o, String username, String profileUser) {
-
+        final home_layout parent_this = this;
         Response.Listener<String> postListener = new Response.Listener<String>() {
-
+            private String[] info;
             @Override
             public void onResponse(String response) {
                 int last_id = 0;
@@ -129,85 +147,27 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     if (jsonResponse != null) {
                         JSONArray home = jsonResponse.getJSONArray("home");
                         LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
+                        ListView postListView = (ListView) findViewById(R.id.listView);
+                        ArrayList<Post> info = new ArrayList<Post>();
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
-                            last_id = post.getInt("id");
+                            if(i == 0){
+                                last_id = post.getInt("id");
+                                offset = last_id;
+                            }
 
-                            //int dimen = (int) getResources().getDimension(R.dimen.feed_item_padding_top_bottom);
-                            int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-                            LinearLayout homePost = new LinearLayout(getApplicationContext());
-                            homePost.setBackgroundResource(R.color.white);
-                            homePost.setOrientation(LinearLayout.VERTICAL);
-                            homePost.setPaddingRelative(0, 0, 0, 0);
-                            LinearLayout.LayoutParams layout_141 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            layout_141.setMargins(0, marginTop, 0, 0);
-                            homePost.setLayoutParams(layout_141);
-                            homeLayout.addView(homePost);
+                            Post newPost =  new Post();
+                            newPost.userpic = post.getString("userpic");
+                            newPost.name = post.getString("name");
+                            newPost.time_added = post.getString("time_added");
+                            newPost.body = post.getString("body");
+                            newPost.picture_added = post.getString("picture_added");
 
-                            LinearLayout informations = new LinearLayout(getApplicationContext());
-                            informations.setOrientation(LinearLayout.HORIZONTAL);
-                            informations.setPadding(0, 0, 15, 0);
-                            LinearLayout.LayoutParams layout_501 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            informations.setLayoutParams(layout_501);
-                            homePost.addView(informations);
-
-                            String userpic = post.getString("userpic");
-                            Log.d("link", userpic);
-                            int profilePicHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-                            int profilePicWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-                            ImageView profilePic = new ImageView(getApplicationContext());
-                            profilePic.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(profilePicHeight, profilePicWidth);
-                            profilePic.setMaxHeight(profilePicHeight);
-                            profilePic.setMaxWidth(profilePicWidth);
-                            lp.setMargins(30, 30, 10, 0);
-                            profilePic.setLayoutParams(lp);
-                            new ImageLinkLoad(userpic, profilePic).execute();
-                            informations.addView(profilePic);
-
-                            int paddingLeft = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-                            LinearLayout name_wrapper = new LinearLayout(getApplicationContext());
-                            name_wrapper.setOrientation(LinearLayout.VERTICAL);
-                            name_wrapper.setPadding(0, 0, paddingLeft, 0);
-                            LinearLayout.LayoutParams layout_5 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            name_wrapper.setLayoutParams(layout_5);
-                            informations.addView(name_wrapper);
-
-                            int textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics());
-                            TextView name = new TextView(getApplicationContext());
-                            name.setPadding(20, 60, 0, 0);
-                            name.setTextSize(textSize);
-                            name.setText(post.getString("name"));
-                            name.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            name_wrapper.addView(name);
-
-                            TextView timestamp = new TextView(getApplicationContext());
-                            timestamp.setTextColor(getResources().getColor(R.color.timestamp));
-                            timestamp.setPadding(20, 5, 0, 0);
-                            timestamp.setTextSize(textSize);
-                            timestamp.setText(post.getString("time_added"));
-                            timestamp.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            name_wrapper.addView(timestamp);
-
-                            TextView txtStatusMsg = new TextView(getApplicationContext());
-                            txtStatusMsg.setPadding(50, 10, 20, 50);
-                            txtStatusMsg.setTextSize(17);
-                            txtStatusMsg.setText(post.getString("body"));
-                            txtStatusMsg.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            homePost.addView(txtStatusMsg);
-
-                            String text = post.getString("picture_added");
-                            Log.d("link", text);
-                            ImageView imageView1 = new ImageView(getApplicationContext());
-                            imageView1.setAdjustViewBounds(true);
-                            imageView1.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            new ImageLinkLoad(text, imageView1).execute();
-                            homeLayout.addView(imageView1);
-
-
+                            info.add(newPost);
                         }
-
+                        PostAdapter postAdapter = new PostAdapter(parent_this, info);
+                        postListView.setAdapter(postAdapter);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(home_layout.this);
                         builder.setMessage("Loading Failed")
@@ -227,68 +187,37 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
     }
     public void bringCrush(int o){
+        final home_layout parent_this = this;
         Response.Listener<String> crushListener = new Response.Listener<String>() {
+            private String[] info;
             @Override
             public void onResponse(String crush) {
+                int last_id_crush = 0;
                 try {
+                    Log.d("RSP:", crush);
                     JSONObject crushResponse = new JSONObject(crush);
                     if (crushResponse != null) {
                         JSONArray crushArray = crushResponse.getJSONArray("crush");
-                        LinearLayout crushLayout = (LinearLayout) findViewById(R.id.crushScroll);
+                        //LinearLayout crushLayout = (LinearLayout) findViewById(R.id.crushScroll);
+                        ListView crushListView = (ListView) findViewById(R.id.crushlistView);
+                        ArrayList<Crush> info = new ArrayList<Crush>();
 
-                        for (int i = 0; i < crush.length(); i++) {
+                        for (int i = 0; i < crushArray.length(); i++) {
                             JSONObject crushObject = crushArray.getJSONObject(i);
-                            Log.d("crush-id:", "" + crushObject.getInt("id"));
 
-                            //int dimen = (int) getResources().getDimension(R.dimen.feed_item_padding_top_bottom);
-                            int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-                            LinearLayout homePost = new LinearLayout(getApplicationContext());
-                            homePost.setBackgroundResource(R.color.white);
-                            homePost.setOrientation(LinearLayout.VERTICAL);
-                            homePost.setPaddingRelative(0, 0, 0, 0);
-                            LinearLayout.LayoutParams layout_141 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            layout_141.setMargins(0, marginTop, 0, 0);
-                            homePost.setLayoutParams(layout_141);
-                            crushLayout.addView(homePost);
+                            if(i == 0){
+                                last_id_crush = crushObject.getInt("id");
+                                offset = last_id_crush;
+                            }
 
-                            LinearLayout informations = new LinearLayout(getApplicationContext());
-                            informations.setOrientation(LinearLayout.HORIZONTAL);
-                            informations.setPadding(0, 0, 15, 0);
-                            LinearLayout.LayoutParams layout_501 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            informations.setLayoutParams(layout_501);
-                            homePost.addView(informations);
+                            Crush newCrush =  new Crush();
+                            newCrush.time_added = crushObject.getString("time_added");
+                            newCrush.body = crushObject.getString("body");
 
-                            int paddingLeft = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
-                            LinearLayout name_wrapper = new LinearLayout(getApplicationContext());
-                            name_wrapper.setOrientation(LinearLayout.VERTICAL);
-                            name_wrapper.setPadding(0, 0, paddingLeft, 0);
-                            LinearLayout.LayoutParams layout_5 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            name_wrapper.setLayoutParams(layout_5);
-                            informations.addView(name_wrapper);
-
-                            int textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, getResources().getDisplayMetrics());
-                            TextView name = new TextView(getApplicationContext());
-                            name.setPadding(20, 60, 0, 0);
-                            name.setTextSize(textSize);
-                            name.setText("Anonymous");
-                            name.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            name_wrapper.addView(name);
-
-                            TextView timestamp = new TextView(getApplicationContext());
-                            timestamp.setTextColor(getResources().getColor(R.color.timestamp));
-                            timestamp.setPadding(20, 5, 0, 0);
-                            timestamp.setTextSize(textSize);
-                            timestamp.setText(crushObject.getString("time_added"));
-                            timestamp.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            name_wrapper.addView(timestamp);
-
-                            TextView txtStatusMsg = new TextView(getApplicationContext());
-                            txtStatusMsg.setPadding(50, 10, 20, 50);
-                            txtStatusMsg.setTextSize(17);
-                            txtStatusMsg.setText(crushObject.getString("body"));
-                            txtStatusMsg.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                            homePost.addView(txtStatusMsg);
+                            info.add(newCrush);
                         }
+                        CrushAdapter crushAdapter = new CrushAdapter(parent_this, info);
+                        crushListView.setAdapter(crushAdapter);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(home_layout.this);
                         builder.setMessage("Loading Failed")
@@ -308,62 +237,46 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     }
 
     public void bringNotifications(int o, String username){
+        final home_layout parent_this = this;
         Response.Listener<String> notificationsListener = new Response.Listener<String>() {
+            private String[] info;
             @Override
             public void onResponse(String notifications) {
+                int last_id_notifications = 0;
                 try {
                     JSONObject notificationsResponse = new JSONObject(notifications);
                     Log.d("notifications:", notifications);
                     if (notificationsResponse != null) {
                         JSONArray notificationsArray = notificationsResponse.getJSONArray("notifications");
-                        LinearLayout notificationsLayout = (LinearLayout) findViewById(R.id.notificationsScroll);
+                        //LinearLayout notificationsLayout = (LinearLayout) findViewById(R.id.notificationsScroll);
+                        ListView notificationsListView = (ListView) findViewById(R.id.notificationslistView);
+                        ArrayList<Notifications> info = new ArrayList<Notifications>();
 
-                        for (int i = 0; i < notifications.length(); i++) {
+                        for (int i = 0; i < notificationsArray.length(); i++) {
                             JSONObject notificationsObject = notificationsArray.getJSONObject(i);
                             Log.d("notifications-id:", "" + notificationsObject.getInt("id"));
 
-                            int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-                            LinearLayout homePost = new LinearLayout(getApplicationContext());
-                            homePost.setBackgroundResource(R.color.white);
-                            homePost.setOrientation(LinearLayout.VERTICAL);
-                            homePost.setPaddingRelative(0, 0, 0, 0);
-                            LinearLayout.LayoutParams layout_141 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            layout_141.setMargins(0, marginTop, 0, 0);
-                            homePost.setLayoutParams(layout_141);
-                            notificationsLayout.addView(homePost);
+                            if(i == 0){
+                                last_id_notifications = notificationsObject.getInt("id");
+                                offset = last_id_notifications;
+                            }
 
-                            LinearLayout informations = new LinearLayout(getApplicationContext());
-                            informations.setOrientation(LinearLayout.HORIZONTAL);
-                            informations.setPadding(0, 0, 15, 0);
-                            LinearLayout.LayoutParams layout_501 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            informations.setLayoutParams(layout_501);
-                            homePost.addView(informations);
+                            Notifications newNotifications =  new Notifications();
+                            newNotifications.userpic = notificationsObject.getString("fromPic");
+                            newNotifications.userFirst = notificationsObject.getString("fromFirst");
 
-                            String text = notificationsObject.getString("fromPic");
-                            ImageView imageView1 = new ImageView(getApplicationContext());
-                            imageView1.setAdjustViewBounds(true);
-                            int imagePicHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-                            int imagePicWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
-                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imagePicHeight, imagePicWidth);
-                            lp.setMargins(40, 40, 15, 40);
-                            imageView1.setLayoutParams(lp);
-                            //new ImageLinkLoad(text, imageView1).execute();
-                            informations.addView(imageView1);
+                            info.add(newNotifications);
 
-
-                            TextView name = new TextView(getApplicationContext());
-                            name.setText(notificationsObject.getString("fromFirst"));
-                            name.setTextSize(16);
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            params.setMargins(15, 70, 15, 30);
-                            name.setLayoutParams(params);
-                            informations.addView(name);
 
                         }
+                        NotificationsAdapter notificationsAdapter = new NotificationsAdapter(parent_this, info);
+                        notificationsListView.setAdapter(notificationsAdapter);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         };
         GetNotifications getNotifications = new GetNotifications(o, username, notificationsListener);

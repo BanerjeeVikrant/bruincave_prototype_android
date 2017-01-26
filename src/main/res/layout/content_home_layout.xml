@@ -38,21 +38,25 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <ScrollView
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listView" />
+                    <!--<ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/homeScrollbar">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:id="@+id/homeScroll">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/homeScroll">
 
                         </LinearLayout>
 
 
-                    </ScrollView>
+                    </ScrollView>-->
 
                 </LinearLayout>
 
@@ -61,6 +65,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/crushlistView" />
+                    <!--
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -75,6 +84,8 @@
                         </LinearLayout>
 
                     </ScrollView>
+
+                    -->
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,6 +93,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/notificationslistView" />
+                    <!--
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -94,6 +111,7 @@
 
                         </LinearLayout>
                     </ScrollView>
+                    -->
                 </LinearLayout>
 
                 <LinearLayout

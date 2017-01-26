@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#687791"
+            android:layout_marginLeft="@dimen/crush_item_margin"
+            android:layout_marginRight="@dimen/crush_item_margin"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/feed_item_padding_top_bottom"
+            android:paddingTop="@dimen/feed_item_padding_top_bottom"
+            android:contextClickable="false">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/feed_item_padding_left_right"
+                android:paddingRight="@dimen/feed_item_padding_left_right" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/feed_item_profile_info_padd" >
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/feed_item_profile_name"
+                        android:textStyle="bold"
+                        android:text="Anonymous"
+                        android:textColor="#fff" />
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/feed_item_timestamp"
+                        android:text="22 hours ago" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtStatusMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+                android:paddingRight="@dimen/feed_item_status_pad_left_right"
+                android:paddingTop="@dimen/feed_item_status_pad_top"
+                android:textSize="20dp"
+                android:text="Hey Everyone how is it going"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/crush_item_margin"
+        android:layout_marginRight="@dimen/crush_item_margin"
+        android:layout_gravity="center_horizontal"
+        android:background="#d8dbe0"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="ssdf"
+            android:id="@+id/textView"
+            android:layout_marginLeft="15dp"
+            android:padding="5dp"
+            android:textColor="#337ab7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="This is a comment"
+            android:id="@+id/textView2"
+            android:layout_marginLeft="15dp"
+            android:textColor="#777272"
+            android:textIsSelectable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/crush_item_margin"
+        android:layout_marginRight="@dimen/crush_item_margin"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:id="@+id/editText"
+            android:layout_gravity="center_horizontal"
+            android:background="#eaecef"
+            android:textColor="#000"
+            android:hint="Comment"
+            android:paddingLeft="20dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
