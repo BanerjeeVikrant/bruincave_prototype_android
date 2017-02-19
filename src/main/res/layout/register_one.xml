@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4080ff">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="So, What&apos;s your name?"
+        android:id="@+id/textView7"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:textColor="#fff"
+        android:textSize="25dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/editText6"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:hint="Firstname"
+        android:paddingLeft="15dp"
+        android:textSize="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/registershape" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/editText8"
+        android:layout_below="@+id/editText6"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:paddingLeft="15dp"
+        android:hint="Lastname"
+        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/registershape"
+        android:text="Lastname" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Next"
+        android:id="@+id/button2"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/editText8"
+        android:layout_alignEnd="@+id/editText8"
+        android:layout_marginTop="25dp"
+        android:textColor="#fff"
+        android:background="#2a4c79"
+        android:textSize="18dp" />
+</RelativeLayout>

@@ -8,10 +8,13 @@ import android.widget.ImageView;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vikrant Banerjee on 1/3/2017.
  */
+/*
 public class ImageLinkLoad extends AsyncTask<Void, Void, Bitmap> {
     private String url;
     private ImageView imageView;
@@ -43,5 +46,44 @@ public class ImageLinkLoad extends AsyncTask<Void, Void, Bitmap> {
         super.onPostExecute(result);
         imageView.setImageBitmap(result);
     }
+}*/
 
+public class ImageLinkLoad extends AsyncTask<Void, Void, Bitmap> {
+    private String url;
+    private ImageView imageView;
+    private static Map<String,Bitmap> cachedBitmaps;
+
+    public ImageLinkLoad(String url, ImageView imageView) {
+        this.url = url;
+        this.imageView = imageView;
+        if  (cachedBitmaps == null) {
+            cachedBitmaps = new HashMap<String, Bitmap>();
+        }
+    }
+
+    @Override
+    protected Bitmap doInBackground(Void... params) {
+        try {
+            Bitmap myBitmap = cachedBitmaps.get(url);
+            if (myBitmap == null) {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                myBitmap = BitmapFactory.decodeStream(input);
+            }
+            return myBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap result) {
+        super.onPostExecute(result);
+        imageView.setImageBitmap(result);
+    }
 }

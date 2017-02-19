@@ -7,14 +7,42 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/likedpaw"
+        android:label="bruincave"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login_Activity">
+        <activity
+            android:name=".home_layout"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".profile_layout"
+            android:label="@string/title_activity_profile_layout"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".settings_layout" />
+        <activity
+            android:name=".photos_intent"
+            android:label="@string/title_activity_photos_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".followers_intent"
+            android:label="@string/title_activity_followers_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".following_intent"
+            android:label="@string/title_activity_following_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".post_intent"
+            android:label="@string/title_activity_post_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".login_layout"
+            android:label="@string/title_activity_post_intent"
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,14 +50,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home_layout"
-            android:label="@string/title_activity_home_layout"
+            android:name=".messages_intent"
+            android:label="@string/title_activity_messages_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".profile_layout"
-            android:label="@string/title_activity_profile_layout"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".settings_layout"></activity>
+            android:name=".register_layout"
+            android:label="@string/title_activity_register_layout"
+            android:theme="@style/AppThemeNoActionBar"/>
+        <activity
+            android:name=".register_layout2"
+            android:label="@string/title_activity_register_layout"
+            android:theme="@style/AppThemeNoActionBar"/>
+        <activity
+            android:name=".register_layout3"
+            android:label="@string/title_activity_register_layout"
+            android:theme="@style/AppThemeNoActionBar"/>
     </application>
 
 </manifest>

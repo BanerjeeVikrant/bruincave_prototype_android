@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4080ff">
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/back_one"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/backwhite"
+        android:background="#4080ff"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="So, What's your name?"
+        android:id="@+id/textLabel1"
+        android:textColor="#fff"
+        android:textSize="28dp"
+        android:layout_below="@+id/back_one"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/firstnameRg"
+        android:layout_below="@+id/textLabel1"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/registershape"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:hint="Firstname"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingStart="15dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/lastnameRg"
+        android:layout_below="@+id/firstnameRg"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/registershape"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:hint="Lastname"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingStart="15dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Next"
+        android:id="@+id/nextone"
+        android:background="#2a4c79"
+        android:textColor="#fff"
+        android:layout_below="@+id/lastnameRg"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp" />
+
+</RelativeLayout>

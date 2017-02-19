@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.banerjee.bruincave_prototype.home_layout">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,19 +17,43 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:background="#1d2d4a"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/search"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/searchshape"
+                android:textColor="#fff"
+                android:hint="Search"
+                android:paddingLeft="20dp"
+                android:paddingBottom="6dp"
+                android:layout_marginRight="15dp"
+                android:drawableStart="@drawable/searcher"
+                android:drawablePadding="12dp"
+                />
+        </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#fff"
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
+
 
     </android.support.design.widget.AppBarLayout>
+    <include
+        layout="@layout/content_home_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <include layout="@layout/content_home_layout" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
 
 </android.support.design.widget.CoordinatorLayout>

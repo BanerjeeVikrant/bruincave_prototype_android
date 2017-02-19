@@ -9,4 +9,5 @@ public class Post {
     public String time_added;
     public String body;
     public String picture_added;
+    public Comment[] comments;
 }

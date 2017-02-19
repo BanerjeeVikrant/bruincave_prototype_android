@@ -54,6 +54,20 @@
         <item>360</item>
         <item>-1</item>
     </string-array>
+    
+    <string-array name="gender_list">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="class_list">
+        <item>Class</item>
+        <item>Freshman</item>
+        <item>Sophomore</item>
+        <item>Junior</item>
+        <item>Senior</item>
+    </string-array>
 
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
@@ -66,4 +80,10 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="title_activity_photos_intent">photos_intent</string>
+    <string name="title_activity_followers_intent">followers_intent</string>
+    <string name="title_activity_following_intent">following_intent</string>
+    <string name="title_activity_messages_intent">messages_intent</string>
+    <string name="title_activity_post_intent">post_intent</string>
+    <string name="title_activity_register_layout">register_layout</string>
 </resources>

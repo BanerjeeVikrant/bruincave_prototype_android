@@ -1,13 +1,34 @@
 package com.example.banerjee.bruincave_new;
 
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.banerjee.bruincave_new.R;
+import com.example.banerjee.bruincave_new.HomeTab;
+import com.example.banerjee.bruincave_new.CrushTab;
+import com.example.banerjee.bruincave_new.NotificationsTab;
+import com.example.banerjee.bruincave_new.MessagesTab;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +41,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -37,61 +60,80 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-public class home_layout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class home_layout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AbsListView.OnScrollListener {
 
+    final String MY_PREFS_NAME = "userinfo";
     private int offset = 0;
+    private int offset_crush = 0;
+    private int offset_notifications = 0;
+    private int offset_msgusers = 0;
+    private String username;
+    private String profileuser = "";
+    private int current_tab = 0;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private int[] tabIcons = {
+            R.drawable.homegrey,
+            R.drawable.anonymouslogowhite,
+            R.drawable.notificationbellgrey,
+            R.drawable.messagegrey
+    };
+    private int[] tabClickedIcons = {
+            R.drawable.homeblue,
+            R.drawable.anonymouslogoblue,
+            R.drawable.notificationbellblue,
+            R.drawable.messageblue
+    };
+    /*
+    private ListView postListView;
+    private ListView crushListView;
+    private ListView notificationsListView;
+    private ListView usersMsgListView;
+    */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
-
-
-        final String MY_PREFS_NAME = "userinfo";
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
-        String username = prefs.getString("username", null);
+        username = prefs.getString("username", null);
         if (username == null) {
-            Intent loginIntent = new Intent(home_layout.this, Login_Activity.class);
+            Intent loginIntent = new Intent(home_layout.this, login_layout.class);
             home_layout.this.startActivity(loginIntent);
         } else {
-            TabHost tabHost = (TabHost) findViewById(R.id.tabHost2);
 
-            // Define Tabhost
-            tabHost.setup();
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            setupViewPager(viewPager);
 
-            TabHost.TabSpec tabSpec = tabHost.newTabSpec("home");
-            tabSpec.setContent(R.id.home);
-            tabSpec.setIndicator("", getResources().getDrawable(R.drawable.homegrey, null));
-            tabHost.addTab(tabSpec);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-            TabHost.TabSpec tabSpec2 = tabHost.newTabSpec("crush");
-            tabSpec2.setContent(R.id.crush);
-            tabSpec2.setIndicator("", getResources().getDrawable(R.drawable.anonymouslogowhite, null));
-            tabHost.addTab(tabSpec2);
 
-            TabHost.TabSpec tabSpec3 = tabHost.newTabSpec("notifications");
-            tabSpec3.setContent(R.id.notifications);
-            tabSpec3.setIndicator("", getResources().getDrawable(R.drawable.notificationbellgrey, null));
-            tabHost.addTab(tabSpec3);
 
-            TabHost.TabSpec tabSpec4 = tabHost.newTabSpec("messages");
-            tabSpec4.setContent(R.id.messages);
-            tabSpec4.setIndicator("", getResources().getDrawable(R.drawable.messagegrey, null));
-            tabHost.addTab(tabSpec4);
+            tabLayout.setupWithViewPager(viewPager);
+            setupTabIcons();
+            tabLayout.getTabAt(0).setIcon(tabClickedIcons[0]);
+            tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+            tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+            tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+            viewPager.addOnPageChangeListener(new MyPageScrollListener(tabLayout));
+            tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
+
+
+
+
+
+
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -102,227 +144,192 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            bringPosts(offset,username, username);
-            bringCrush(0);
-            bringNotifications(0,username);
-            bringUsersMsg(0,username, "");
 
-            /*
-            ListView yourListView = (ListView) findViewById(R.id.listView);
-            String failed = "failed";
-
-
-            Log.d("", yourListView.getAdapter().getCount() + "");
-
-            if (yourListView.getLastVisiblePosition() == yourListView.getAdapter().getCount() - 1 && yourListView.getChildAt(yourListView.getChildCount() - 1).getBottom() <= yourListView.getHeight()) {
-                //It is scrolled all the way down here
-
-            }
-
-            */
-
-            //final ScrollView homeScroll = (ScrollView) findViewById(R.id.homeScrollbar);
-            //final LinearLayout homeScrollbar = (LinearLayout) findViewById(R.id.homeScroll);
-            //ScrollView crushScroll = (ScrollView) findViewById(R.id.crushScrollbar);
-            //LinearLayout crushScrollbar = (LinearLayout) findViewById(R.id.crushScroll);
-            //ScrollView notificationsScroll = (ScrollView) findViewById(R.id.notificationsScrollbar);
-            //LinearLayout notificationsScrollbar = (LinearLayout) findViewById(R.id.notificationsScroll);
 
 
 
         }
-    }
-
-    public void bringPosts(int o, String username, String profileUser) {
-        final home_layout parent_this = this;
-        Response.Listener<String> postListener = new Response.Listener<String>() {
-            private String[] info;
-            @Override
-            public void onResponse(String response) {
-                int last_id = 0;
-                try {
-                    Log.d("RSP:", response);
-                    JSONObject jsonResponse = new JSONObject(response);
-
-                    if (jsonResponse != null) {
-                        JSONArray home = jsonResponse.getJSONArray("home");
-                        LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
-                        ListView postListView = (ListView) findViewById(R.id.listView);
-                        ArrayList<Post> info = new ArrayList<Post>();
-
-                        for (int i = 0; i < home.length(); i++) {
-                            JSONObject post = home.getJSONObject(i);
-                            if(i == 0){
-                                last_id = post.getInt("id");
-                                offset = last_id;
-                            }
-
-                            Post newPost =  new Post();
-                            newPost.userpic = post.getString("userpic");
-                            newPost.name = post.getString("name");
-                            newPost.time_added = post.getString("time_added");
-                            newPost.body = post.getString("body");
-                            newPost.picture_added = post.getString("picture_added");
-
-                            info.add(newPost);
-                        }
-                        PostAdapter postAdapter = new PostAdapter(parent_this, info);
-                        postListView.setAdapter(postAdapter);
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(home_layout.this);
-                        builder.setMessage("Loading Failed")
-                                .setNegativeButton("Retry", null)
-                                .create()
-                                .show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        GetPost getPost = new GetPost(o, username, profileUser, 0, postListener);
-        RequestQueue queue = Volley.newRequestQueue(home_layout.this);
-        queue.add(getPost);
 
     }
-    public void bringCrush(int o){
-        final home_layout parent_this = this;
-        Response.Listener<String> crushListener = new Response.Listener<String>() {
-            private String[] info;
-            @Override
-            public void onResponse(String crush) {
-                int last_id_crush = 0;
-                try {
-                    Log.d("RSP:", crush);
-                    JSONObject crushResponse = new JSONObject(crush);
-                    if (crushResponse != null) {
-                        JSONArray crushArray = crushResponse.getJSONArray("crush");
-                        //LinearLayout crushLayout = (LinearLayout) findViewById(R.id.crushScroll);
-                        ListView crushListView = (ListView) findViewById(R.id.crushlistView);
-                        ArrayList<Crush> info = new ArrayList<Crush>();
 
-                        for (int i = 0; i < crushArray.length(); i++) {
-                            JSONObject crushObject = crushArray.getJSONObject(i);
 
-                            if(i == 0){
-                                last_id_crush = crushObject.getInt("id");
-                                offset = last_id_crush;
-                            }
+    private int preLast = 0;
+    @Override
+    public void onScrollStateChanged(AbsListView view, int state) {
 
-                            Crush newCrush =  new Crush();
-                            newCrush.time_added = crushObject.getString("time_added");
-                            newCrush.body = crushObject.getString("body");
-
-                            info.add(newCrush);
-                        }
-                        CrushAdapter crushAdapter = new CrushAdapter(parent_this, info);
-                        crushListView.setAdapter(crushAdapter);
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(home_layout.this);
-                        builder.setMessage("Loading Failed")
-                                .setNegativeButton("Retry", null)
-                                .create()
-                                .show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        GetCrush getCrush = new GetCrush(o, crushListener);
-        RequestQueue queue1 = Volley.newRequestQueue(home_layout.this);
-        queue1.add(getCrush);
     }
 
-    public void bringNotifications(int o, String username){
-        final home_layout parent_this = this;
-        Response.Listener<String> notificationsListener = new Response.Listener<String>() {
-            private String[] info;
-            @Override
-            public void onResponse(String notifications) {
-                int last_id_notifications = 0;
-                try {
-                    JSONObject notificationsResponse = new JSONObject(notifications);
-                    Log.d("notifications:", notifications);
-                    if (notificationsResponse != null) {
-                        JSONArray notificationsArray = notificationsResponse.getJSONArray("notifications");
-                        //LinearLayout notificationsLayout = (LinearLayout) findViewById(R.id.notificationsScroll);
-                        ListView notificationsListView = (ListView) findViewById(R.id.notificationslistView);
-                        ArrayList<Notifications> info = new ArrayList<Notifications>();
-
-                        for (int i = 0; i < notificationsArray.length(); i++) {
-                            JSONObject notificationsObject = notificationsArray.getJSONObject(i);
-                            Log.d("notifications-id:", "" + notificationsObject.getInt("id"));
-
-                            if(i == 0){
-                                last_id_notifications = notificationsObject.getInt("id");
-                                offset = last_id_notifications;
-                            }
-
-                            Notifications newNotifications =  new Notifications();
-                            newNotifications.userpic = notificationsObject.getString("fromPic");
-                            newNotifications.userFirst = notificationsObject.getString("fromFirst");
-
-                            info.add(newNotifications);
-
-
-                        }
-                        NotificationsAdapter notificationsAdapter = new NotificationsAdapter(parent_this, info);
-                        notificationsListView.setAdapter(notificationsAdapter);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    @Override
+    public void onScroll(AbsListView lw, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
+        final int lastItem = firstVisibleItem + visibleItemCount;
+        if(lastItem == totalItemCount)
+        {
+            if(preLast!=lastItem)
+            {
+                /*
+                if(current_tab == 0) {
+                    bringPosts(username, profileuser);
+                } else if(current_tab == 1) {
+                    bringCrush();
+                } else if(current_tab == 2) {
+                    bringNotifications(username);
                 }
-
+*/
+                preLast = lastItem;
             }
-        };
-        GetNotifications getNotifications = new GetNotifications(o, username, notificationsListener);
-        RequestQueue queue2 = Volley.newRequestQueue(home_layout.this);
-        queue2.add(getNotifications);
+        }
     }
 
-    public void bringUsersMsg(int o, String username, String str){
-        final home_layout parent_this = this;
-        Response.Listener<String> usersListener = new Response.Listener<String>() {
-            private String[] info;
-            @Override
-            public void onResponse(String users) {
-                try {
-                    JSONObject usersResponse = new JSONObject(users);
-                    Log.d("users:", users);
-                    if (usersResponse != null) {
-                        JSONArray usersArray = usersResponse.getJSONArray("usersMsg");
-                        //LinearLayout usersLayout = (LinearLayout) findViewById(R.id.userswrapper);
-                        ListView usersMsgListView = (ListView) findViewById(R.id.usersMsgListView);
-                        ArrayList<BringUsersMsg> info = new ArrayList<BringUsersMsg>();
-
-                        for (int i = 0; i < users.length(); i++) {
-                            JSONObject usersObject = usersArray.getJSONObject(i);
-                            Log.d("users-id:", "" + usersObject.getInt("id"));
-
-                            BringUsersMsg newMsgsUsers =  new BringUsersMsg();
-                            newMsgsUsers.fromPic = usersObject.getString("fromPic");
-                            newMsgsUsers.name = usersObject.getString("name");
-                            newMsgsUsers.body = usersObject.getString("body");
-
-                            info.add(newMsgsUsers);
+    private void setupTabIcons() {
+/*
+        postListView = (ListView) LayoutInflater.from(this).inflate(R.layout.home_tab, null);
+        crushListView = (ListView) LayoutInflater.from(this).inflate(R.layout.crush_tab, null);
+        notificationsListView = (ListView) LayoutInflater.from(this).inflate(R.layout.notifications_tab, null);
+        usersMsgListView = (ListView) LayoutInflater.from(this).inflate(R.layout.messages_tab, null);
+*/
 
 
-                        }
-                        UsersMsgAdapter usersMsgAdapter = new UserMsgAdapter(parent_this, info);
-                        usersMsgListView.setAdapter(UsersMsgAdapter);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        Bundle homeArgs = new Bundle();
+        homeArgs.putString("username", username);
+        homeArgs.putString("profileuser", profileuser);
+        HomeTab home = new HomeTab();
+        home.setArguments(homeArgs);
+        adapter.addFrag(home, "ONE");
+
+        CrushTab crush = new CrushTab();
+        adapter.addFrag(crush, "TWO");
+
+        Bundle ntArgs = new Bundle();
+        ntArgs.putString("username", username);
+        NotificationsTab nt = new NotificationsTab();
+        nt.setArguments(ntArgs);
+        adapter.addFrag(nt, "THREE");
+
+        Bundle msgArgs = new Bundle();
+        msgArgs.putString("username", username);
+        MessagesTab msg = new MessagesTab();
+        msg.setArguments(msgArgs);
+        adapter.addFrag(msg, "FOUR");
+        Log.d("XXX","Adapter.getcount() ="+adapter.getCount());
+
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return null;
+        }
+
+    };
+
+    /*
+     * This is for scrolling y-axis.
+     */
+
+    private class MyPageScrollListener implements ViewPager.OnPageChangeListener {
+        private TabLayout mTabLayout;
+
+        public MyPageScrollListener(TabLayout tabLayout) {
+            this.mTabLayout = tabLayout;
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            Log.d("positionoffsetpixel", positionOffsetPixels + "");
+            Log.d("positionoffset", positionOffset + "");
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if(mTabLayout != null) {
             }
-        };
-        BringUsersMsg bringUsersMsg = new BringUsersMsg(o, username, str, usersListener);
-        RequestQueue queue3 = Volley.newRequestQueue(home_layout.this);
-        queue3.add(bringUsersMsg);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    }
+
+    private class MyOnTabSelectedListener implements TabLayout.OnTabSelectedListener {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            int position = tab.getPosition();
+            if (viewPager.getCurrentItem() != position) {
+                viewPager.setCurrentItem(position, true);
+
+            }
+            Log.d("position", position + "");
+            switch (position) {
+                case 0:
+                    tabLayout.getTabAt(0).setIcon(tabClickedIcons[0]);
+                    tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+                    tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+                    tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+                    break;
+                case 1:
+                    tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+                    tabLayout.getTabAt(1).setIcon(tabClickedIcons[1]);
+                    tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+                    tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+                    break;
+                case 2:
+                    tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+                    tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+                    tabLayout.getTabAt(2).setIcon(tabClickedIcons[2]);
+                    tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+                    break;
+                case 3:
+                    tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+                    tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+                    tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+                    tabLayout.getTabAt(3).setIcon(tabClickedIcons[3]);
+                    break;
+                default:
+                    Log.d("Error","Error");
+                    break;
+            }
+
+
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
     }
 
     @Override
@@ -371,10 +378,18 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             Intent settingsIntent = new Intent(home_layout.this, settings_layout.class);
             home_layout.this.startActivity(settingsIntent);
         } else if (id == R.id.nav_faq) {
+            Intent messagesIntent = new Intent(home_layout.this, messages_intent.class);
+            home_layout.this.startActivity(messagesIntent);
 
         } else if (id == R.id.nav_feedback) {
 
         } else if (id == R.id.nav_logout) {
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putString("username", null);
+            editor.apply();
+
+            Intent loginIntent = new Intent(home_layout.this, login_layout.class);
+            home_layout.this.startActivity(loginIntent);
 
         } else if (id == R.id.nav_share) {
 

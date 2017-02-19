@@ -9,14 +9,16 @@
     tools:context="com.example.banerjee.bruincave_prototype.profile_layout"
     tools:showIn="@layout/activity_profile_layout">
     <ScrollView
+        android:id="@+id/scrollViewId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/profileScrollbar">
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -98,13 +100,14 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/homeScroll">
-
+                android:orientation="vertical">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/profilePostListView" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
