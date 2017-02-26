@@ -8,26 +8,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="#d8dbe0"
-            android:padding="5dp">
+            android:background="#f9f9f9"
+            android:paddingLeft="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="0dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/from"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:padding="5dp"
-                android:textColor="#337ab7" />
+                android:textColor="#337ab7"
+                android:text="Error" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/body"
-                android:layout_marginLeft="15dp"
+                android:id="@+id/followerlastonline"
+                android:layout_marginLeft="10dp"
                 android:textColor="#777272"
-                android:textIsSelectable="true" />
+                android:textIsSelectable="true"
+                android:text="This is a big"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp" />
         </LinearLayout>
 
 </LinearLayout>

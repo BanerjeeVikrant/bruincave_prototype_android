@@ -54,6 +54,14 @@
             android:label="@string/title_activity_messages_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".postHome_intent"
+            android:label="@string/title_activity_messages_intent"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name=".postAnon_intent"
+            android:label="@string/title_activity_messages_intent"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
             android:name=".register_layout"
             android:label="@string/title_activity_register_layout"
             android:theme="@style/AppThemeNoActionBar"/>
@@ -64,7 +72,11 @@
         <activity
             android:name=".register_layout3"
             android:label="@string/title_activity_register_layout"
-            android:theme="@style/AppThemeNoActionBar"/>
+            android:theme="@style/AppThemeNoActionBar"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

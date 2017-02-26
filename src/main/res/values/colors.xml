@@ -10,4 +10,7 @@
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
     <color name="colorPrimaryDarkLogin">#111c30</color>
+
+    <color name="postColorEdit">#ffa500</color>
+    <color name="anonColorEdit">#ebdbd8</color>
 </resources>

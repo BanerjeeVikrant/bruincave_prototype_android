@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#1d2d4a"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <EditText
                 android:layout_width="match_parent"
@@ -49,6 +51,38 @@
         layout="@layout/content_home_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabTextPost"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="180dp"
+        android:src="@drawable/textcursor"
+        app:backgroundTint="#1d2d4a"
+        android:scaleType="center" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabPhotoPost"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="110dp"
+        android:src="@drawable/iconcamera"
+        app:backgroundTint="#1d2d4a"
+        android:scaleType="center" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabPost"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/edit"
+        app:backgroundTint="#1d2d4a"
+        android:scaleType="center" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

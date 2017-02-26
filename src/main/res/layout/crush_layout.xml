@@ -35,7 +35,7 @@
                     android:paddingLeft="@dimen/feed_item_profile_info_padd" >
 
                     <TextView
-                        android:id="@+id/name"
+                        android:id="@+id/nameCrush"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/feed_item_profile_name"
@@ -67,7 +67,7 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
+    <!--<LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,6 +118,6 @@
             android:paddingLeft="20dp" />
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 </LinearLayout>

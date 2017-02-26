@@ -1,5 +1,8 @@
 package com.example.banerjee.bruincave_new;
 
+import android.content.res.ColorStateList;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -29,6 +32,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +43,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,10 +61,14 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +76,9 @@ import java.util.concurrent.TimeUnit;
 public class home_layout extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AbsListView.OnScrollListener {
 
     final String MY_PREFS_NAME = "userinfo";
+    private FloatingActionButton fab;
+    private FloatingActionButton fabText;
+    private FloatingActionButton fabPhoto;
     private int offset = 0;
     private int offset_crush = 0;
     private int offset_notifications = 0;
@@ -87,19 +101,16 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             R.drawable.notificationbellblue,
             R.drawable.messageblue
     };
-    /*
-    private ListView postListView;
-    private ListView crushListView;
-    private ListView notificationsListView;
-    private ListView usersMsgListView;
-    */
+    private Typeface fontPTSerif;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+//fix
+        fontPTSerif = Typeface.createFromAsset(getAssets(),"fonts/PTSerif.ttf");
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
@@ -109,11 +120,62 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             home_layout.this.startActivity(loginIntent);
         } else {
 
+
+            fab = (FloatingActionButton) findViewById(R.id.fabPost);
+            fabText = (FloatingActionButton) findViewById(R.id.fabTextPost);
+            fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhotoPost);
+
+            fabText.setVisibility(View.GONE);
+            fabPhoto.setVisibility(View.GONE);
+
+            fabText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent openHomePost = new Intent(home_layout.this, postHome_intent.class);
+                    home_layout.this.startActivity(openHomePost);
+                    //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                }
+            });
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (current_tab) {
+                        case 0:
+                            if (fabText.getVisibility() == View.VISIBLE) {
+                                fabText.setVisibility(View.GONE);
+                                fabPhoto.setVisibility(View.GONE);
+                            } else {
+                                fabText.setVisibility(View.VISIBLE);
+                                fabPhoto.setVisibility(View.VISIBLE);
+                            }
+
+                            break;
+                        case 1:
+                            Intent openAnonPost = new Intent(home_layout.this, postAnon_intent.class);
+                            home_layout.this.startActivity(openAnonPost);
+                            //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+
+                            break;
+                        case 2:
+                            Log.d("Error", "Error");
+                            break;
+                        case 3:
+
+                            break;
+                        default:
+                            Log.d("Error", "Error");
+                            break;
+
+
+                    }
+                }
+            });
+
             viewPager = (ViewPager) findViewById(R.id.viewpager);
             setupViewPager(viewPager);
 
             tabLayout = (TabLayout) findViewById(R.id.tabs);
-
 
 
             tabLayout.setupWithViewPager(viewPager);
@@ -127,11 +189,6 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             tabLayout.setOnTabSelectedListener(new MyOnTabSelectedListener());
 
 
-
-
-
-
-
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
@@ -141,19 +198,63 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             drawer.setDrawerListener(toggle);
             toggle.syncState();
 
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
+            //Fix the navigation Bar
 
 
+            Response.Listener<String> navListener = new Response.Listener<String>() {
+                private String[] info;
+                @Override
+                public void onResponse(String users) {
+                    try {
+                        JSONObject usersResponse = new JSONObject(users);
+                        if (usersResponse != null) {
+                            JSONArray usersArray = usersResponse.getJSONArray("userdata");
 
+                            for (int i = 0; i < usersArray.length(); i++) {
+                                JSONObject usersObject = usersArray.getJSONObject(i);
+                                Log.d("users-id:", "" + usersObject.getInt("id"));
 
+                                View hView =  navigationView.getHeaderView(0);
+                                TextView logedInName = (TextView) hView.findViewById(R.id.logedInName);
+                                com.github.siyamed.shapeimageview.CircularImageView logedInProImage = (com.github.siyamed.shapeimageview.CircularImageView) hView.findViewById(R.id.logedInProImage);
+                                ImageView logedInBanImage = (ImageView) hView.findViewById(R.id.logedInBanImage);
+                                TextView logedInUsername = (TextView) hView.findViewById(R.id.logedInUsername);
+
+                                logedInName.setText(usersObject.getString("firstname")+" "+usersObject.getString("lastname"));
+                                logedInUsername.setText("@"+username);
+                                logedInName.setTypeface(fontPTSerif);
+                                logedInUsername.setTypeface(fontPTSerif);
+
+                                new ImageLinkLoad(usersObject.getString("userpic"), logedInProImage).execute();
+                                new ImageLinkLoad(usersObject.getString("bannerpic"), logedInBanImage).execute();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            BringUserData bringUserData = new BringUserData(username, navListener);
+            RequestQueue queue3 = Volley.newRequestQueue(this);
+            queue3.add(bringUserData);
+
+            Menu m = navigationView.getMenu();
+            SubMenu branhamTrendsMenu = m.addSubMenu("Branham Trends");
+            branhamTrendsMenu.add("");
+
+            MenuItem mi = m.getItem(m.size()-1);
+            mi.setTitle(mi.getTitle());
         }
+
 
     }
 
 
     private int preLast = 0;
+
     @Override
     public void onScrollStateChanged(AbsListView view, int state) {
 
@@ -162,10 +263,8 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     @Override
     public void onScroll(AbsListView lw, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
         final int lastItem = firstVisibleItem + visibleItemCount;
-        if(lastItem == totalItemCount)
-        {
-            if(preLast!=lastItem)
-            {
+        if (lastItem == totalItemCount) {
+            if (preLast != lastItem) {
                 /*
                 if(current_tab == 0) {
                     bringPosts(username, profileuser);
@@ -179,6 +278,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             }
         }
     }
+
 
     private void setupTabIcons() {
 /*
@@ -215,7 +315,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
         MessagesTab msg = new MessagesTab();
         msg.setArguments(msgArgs);
         adapter.addFrag(msg, "FOUR");
-        Log.d("XXX","Adapter.getcount() ="+adapter.getCount());
+        Log.d("XXX", "Adapter.getcount() =" + adapter.getCount());
 
         viewPager.setAdapter(adapter);
     }
@@ -248,7 +348,9 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             return null;
         }
 
-    };
+    }
+
+    ;
 
     /*
      * This is for scrolling y-axis.
@@ -269,7 +371,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
         @Override
         public void onPageSelected(int position) {
-            if(mTabLayout != null) {
+            if (mTabLayout != null) {
             }
         }
 
@@ -294,31 +396,49 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     tabLayout.getTabAt(1).setIcon(tabIcons[1]);
                     tabLayout.getTabAt(2).setIcon(tabIcons[2]);
                     tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+                    fab.setVisibility(View.VISIBLE);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.postColorEdit)));
+                    fab.setImageResource(R.drawable.edit);
+
                     break;
                 case 1:
                     tabLayout.getTabAt(0).setIcon(tabIcons[0]);
                     tabLayout.getTabAt(1).setIcon(tabClickedIcons[1]);
                     tabLayout.getTabAt(2).setIcon(tabIcons[2]);
                     tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+                    fab.setVisibility(View.VISIBLE);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.anonColorEdit)));
+                    fab.setImageResource(R.drawable.anonymouslogoblue);
+
                     break;
                 case 2:
                     tabLayout.getTabAt(0).setIcon(tabIcons[0]);
                     tabLayout.getTabAt(1).setIcon(tabIcons[1]);
                     tabLayout.getTabAt(2).setIcon(tabClickedIcons[2]);
                     tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+
+                    fab.setVisibility(View.INVISIBLE);
                     break;
                 case 3:
                     tabLayout.getTabAt(0).setIcon(tabIcons[0]);
                     tabLayout.getTabAt(1).setIcon(tabIcons[1]);
                     tabLayout.getTabAt(2).setIcon(tabIcons[2]);
                     tabLayout.getTabAt(3).setIcon(tabClickedIcons[3]);
+
+                    fab.setVisibility(View.VISIBLE);
+                    fab.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.postColorEdit)));
+                    fab.setImageResource(R.drawable.plussymbol);
                     break;
                 default:
-                    Log.d("Error","Error");
+                    Log.d("Error", "Error");
                     break;
+
+
             }
-
-
+            current_tab = position;
         }
 
         @Override
@@ -371,10 +491,9 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent profileIntent = new Intent(home_layout.this, profile_layout.class);
+            Intent profileIntent = new Intent(home_layout.this, post_intent.class);
             home_layout.this.startActivity(profileIntent);
-        }
-        else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(home_layout.this, settings_layout.class);
             home_layout.this.startActivity(settingsIntent);
         } else if (id == R.id.nav_faq) {
@@ -390,10 +509,6 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
             Intent loginIntent = new Intent(home_layout.this, login_layout.class);
             home_layout.this.startActivity(loginIntent);
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 

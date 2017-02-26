@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -51,6 +52,16 @@ public class following_intent extends AppCompatActivity {
                 public void onClick(View view) {
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                }
+            });
+
+            ImageButton back_following = (ImageButton) findViewById(R.id.backProfileFollowing);
+            back_following.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent profileIntent = new Intent(following_intent.this, profile_layout.class);
+                    following_intent.this.startActivity(profileIntent);
+                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
                 }
             });
         }

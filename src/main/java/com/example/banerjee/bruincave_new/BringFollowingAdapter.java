@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class BringFollowingAdapter extends ArrayAdapter<BringFollowing> {
     public BringFollowingAdapter(Context context, List<BringFollowing> info) {
-        super(context, R.layout.msgusers_layout, info);
+        super(context, R.layout.followusers_layout, info);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater usersMsgInflater = LayoutInflater.from(getContext());
         if (convertView == null) {
-            convertView = usersMsgInflater.inflate(R.layout.following_layout, parent, false);
+            convertView = usersMsgInflater.inflate(R.layout.followusers_layout, parent, false);
         }
 
         BringFollowing bringFollowing = getItem(position);

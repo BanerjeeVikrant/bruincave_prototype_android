@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.siyamed.shapeimageview.shader.BubbleShader;
+
 import java.util.List;
 
 /**
@@ -43,15 +45,16 @@ public class MessagesAdapter extends ArrayAdapter<Messages>{
         //new ImageLinkLoad(messages.userpic, userpic).execute();
         body.setText(messages.body);
         if(new String(messages.format).equals("1")){
-            ImageView imageView = new ImageView(getContext());
+            final com.github.siyamed.shapeimageview.BubbleImageView imageView = new com.github.siyamed.shapeimageview.BubbleImageView(getContext());
             //imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            LinearLayout.LayoutParams layout_204 = new LinearLayout.LayoutParams((int)fPixel * 60,(int)fPixel * 60);
+            LinearLayout.LayoutParams layout_204 = new LinearLayout.LayoutParams((int)fPixel * 60,(int)fPixel * 50);
             imageView.setLayoutParams(layout_204);
+            imageView.setArrowPosition(BubbleShader.ArrowPosition.RIGHT);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (body.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) body.getLayoutParams();
 
-                p.setMargins((int)fPixel*20, 0, (int)fPixel*40, (int)fPixel*10);
+                p.setMargins((int)fPixel*10, 0, (int)fPixel*40, (int)fPixel*5);
                 body.requestLayout();
             }
             messageBox.addView(imageView, 0);
@@ -67,7 +70,7 @@ public class MessagesAdapter extends ArrayAdapter<Messages>{
             params.gravity = Gravity.RIGHT;
             if (body.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) body.getLayoutParams();
-                p.setMargins((int)fPixel*40, 0, (int)fPixel*15, (int)fPixel*10);
+                p.setMargins((int)fPixel*40, 0, (int)fPixel*15, (int)fPixel*0);
                 body.requestLayout();
             }
             Log.d("this", messages.format);

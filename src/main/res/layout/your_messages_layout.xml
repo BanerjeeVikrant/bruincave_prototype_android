@@ -15,11 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/messagebody"
-            android:background="#fff"
-            android:text="This is the second message which is a little longer"
-            android:padding="13dp"
+            android:background="@drawable/rounded_corners_white"
+            android:text="Error"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:textSize="17dp"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="15dp" />
 

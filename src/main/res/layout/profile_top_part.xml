@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topProfilePart">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/bannerdefault"
+            android:scaleType="centerCrop"
+            android:layout_alignBottom="@+id/linearLayout"
+            android:layout_marginBottom="5dp" />
+
+
+
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:id="@+id/profilepic"
+            android:src="@drawable/defaultpic"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name Name"
+            android:layout_below="@+id/profilepic"
+            android:id="@+id/nameProfile"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:textStyle="normal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Follow"
+            android:id="@+id/followbtn"
+            android:layout_below="@+id/nameProfile"
+            android:paddingLeft="80dp"
+            android:paddingRight="80dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_centerHorizontal="true"
+            android:background="#0ebb0e"
+            android:textColor="#fff"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bioBody"
+            android:layout_below="@id/followbtn"
+            android:layout_marginTop="40dp"
+            android:background="#fff">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bioInfo"
+                android:text="Error"
+                android:autoText="false"
+                android:textSize="20dp"
+                android:enabled="true"
+                android:layout_margin="15dp" />
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/bioInfo"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="15dp">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/onlineOrNotInfo"
+                    android:text="Offline"
+                    android:textSize="19dp"
+                    android:enabled="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>-->
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bioBody"
+            android:id="@+id/linearLayout">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Photos"
+                android:id="@+id/photos"
+                android:layout_weight="1"
+                android:background="#f1f1f1" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Followers"
+                android:id="@+id/followers"
+                android:layout_weight="1"
+                android:background="#f1f1f1" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Following"
+                android:id="@+id/following"
+                android:layout_weight="1"
+                android:background="#f1f1f1" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

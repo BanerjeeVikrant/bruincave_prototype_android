@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/body"
+            android:id="@+id/followerlastonline"
             android:layout_below="@+id/followername"
             android:layout_alignStart="@+id/followername"
             android:layout_marginTop="2dp" />

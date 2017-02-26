@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -40,24 +41,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class profile_layout extends AppCompatActivity implements  AbsListView.OnScrollListener{
+public class profile_layout extends AppCompatActivity {
 
     private int offset = 0;
-    private String username;
-    private String profileuser = null;
+    private String profileuser = "ssdf";
+    private int preLast = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         final String MY_PREFS_NAME = "userinfo";
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
 
-        String username = prefs.getString("username", null);
+        final String username = prefs.getString("username", null);
         if (username == null) {
             Intent loginIntent = new Intent(profile_layout.this, login_layout.class);
             profile_layout.this.startActivity(loginIntent);
@@ -71,179 +70,132 @@ public class profile_layout extends AppCompatActivity implements  AbsListView.On
                             .setAction("Action", null).show();
                 }
             });
-            Log.d("RSP:", "Hope this works");
-            Response.Listener<String> usersdataListener = new Response.Listener<String>() {
+
+            ImageButton backButton = (ImageButton) findViewById(R.id.backProfile);
+
+
+            backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onResponse(String data) {
-                    try {
-                        Log.d("RSP:", data);
-                        JSONObject usersResponse = new JSONObject(data);
-                        if (usersResponse != null) {
-                            JSONArray dataArray = usersResponse.getJSONArray("userdata");
-                            RelativeLayout dataLayout = (RelativeLayout) findViewById(R.id.page);
-
-                            for (int i = 0; i < dataArray.length(); i++) {
-                                JSONObject dataObject = dataArray.getJSONObject(i);
-
-                                String bannerpicLink = dataObject.getString("bannerpic");
-                                String profilepicLink = dataObject.getString("userpic");
-                                String userHeadingName = dataObject.getString("name");
-
-                                ImageView bannerpic = (ImageView) findViewById(R.id.bannerimg);
-                                ImageView profilepic = (ImageView) findViewById(R.id.profilepic);
-                                TextView userHeading = (TextView) findViewById(R.id.userHeading);
-                                Button controlBtn = (Button) findViewById(R.id.controlBtn);
-
-
-                                new ImageLinkLoad(bannerpicLink, bannerpic).execute();
-                                new ImageLinkLoad(profilepicLink, profilepic).execute();
-
-                                userHeading.setText(userHeadingName);
-
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                public void onClick(View view) {
+                    Intent homeIntent = new Intent(profile_layout.this, home_layout.class);
+                    profile_layout.this.startActivity(homeIntent);
+                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
                 }
-            };
-            BringUserData bringUserData = new BringUserData(username, username, usersdataListener);
-            RequestQueue queue3 = Volley.newRequestQueue(profile_layout.this);
-            queue3.add(bringUserData);
+            });
+            /* ERROR*********************************************************
 
-            if(profileuser == null){
-                profileuser = username;
-            }
+            Button followersBtn = (Button) findViewById(R.id.followers);
+            Button followingBtn = (Button) findViewById(R.id.following);
 
-            Log.d("offset Last", offset + "");
-            Log.d("username Last", username);
-            Log.d("username Last", profileuser);
+            followersBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent followerIntent = new Intent(profile_layout.this, followers_intent.class);
+                    profile_layout.this.startActivity(followerIntent);
+                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                }
+            });
+
+            followingBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent followingIntent = new Intent(profile_layout.this, following_intent.class);
+                    profile_layout.this.startActivity(followingIntent);
+                    overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                }
+            });
+
+            ****************************************************************/
+
 
             bringPosts(username, profileuser);
+            ListView postListView = (ListView) findViewById(R.id.profileListView);
+            postListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            ListView yourListView = (ListView) findViewById(R.id.profilePostListView);
-            yourListView.setOnScrollListener(this);
+                }
 
-            Button followersButton = (Button) findViewById(R.id.followers);
-            Button followingButton = (Button) findViewById(R.id.following);
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    final int lastItem = firstVisibleItem + visibleItemCount;
+                    if(lastItem == totalItemCount) {
+                        if(preLast!=lastItem) {
 
-            followersButton.setOnClickListener(followersButtonOnClick);
-            followingButton.setOnClickListener(followingButtonOnClick);
+                            bringPosts(username, profileuser);
+
+                            Log.d("info", offset + "");
+
+                            preLast = lastItem;
+                        }
+                    }
+                }
+            });
+
 
         }
     }
-    View.OnClickListener followersButtonOnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent followersIntent = new Intent(profile_layout.this, followers_intent.class);
-            profile_layout.this.startActivity(followersIntent);
-        }
-    };
-    View.OnClickListener followingButtonOnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent followingIntent = new Intent(profile_layout.this, following_intent.class);
-            profile_layout.this.startActivity(followingIntent);
-        }
-    };
-    private int preLast = 0;
-    @Override
-    public void onScrollStateChanged(AbsListView view, int state) {
 
-    }
-
-    @Override
-    public void onScroll(AbsListView lw, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
-        final int lastItem = firstVisibleItem + visibleItemCount;
-        if(lastItem == totalItemCount)
-        {
-            if(preLast!=lastItem)
-            {
-                /*
-                //to avoid multiple calls for last item
-                Log.d("Reached Last", "Last");
-                Log.d("offset Last", offset + "");
-                Log.d("username Last", username);
-                Log.d("username Last", profileuser);
-
-                bringPosts(username, profileuser);
-                preLast = lastItem;
-                */
-            }
-        }
-    }
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight=0;
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++)
-        {
-            view = listAdapter.getView(i, view, listView);
-
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
-                        DrawerLayout.LayoutParams.MATCH_PARENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + ((listView.getDividerHeight()) * (listAdapter.getCount()));
-
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
-    }
-
-    public void bringPosts(String username, String profileUser) {
-        final profile_layout parent_this = this;
+    PostAdapter postAdapter = null;
+    public void bringPosts(final String username, String profileUser) {
+        Log.d("username", username);
+        Log.d("profileusername", profileUser);
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
             public void onResponse(String response) {
                 try {
                     Log.d("RSP:", response);
-                    Log.d("RSP:", response);
                     JSONObject jsonResponse = new JSONObject(response);
 
                     if (jsonResponse != null) {
                         JSONArray home = jsonResponse.getJSONArray("home");
-                        Log.d("hi", "");
-                        ListView postListView = (ListView) findViewById(R.id.profilePostListView);
+                        //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
                             Post newPost =  new Post();
+                            newPost.id = post.getInt("id");
                             newPost.userpic = post.getString("userpic");
                             newPost.name = post.getString("name");
                             newPost.time_added = post.getString("time_added");
                             newPost.body = post.getString("body");
+                            newPost.likedByMe = post.getInt("likedByMe");
                             newPost.picture_added = post.getString("picture_added");
+                            newPost.username = username;
+                            newPost.moreThanThreeLiker = post.getInt("moreThanThreeLiker");
+                            newPost.moreThanThreeComments = post.getInt("moreThanThreeComments");
+                            newPost.likesCount = post.getInt("likesCount");
+                            newPost.likedby = post.getString("likedby");
 
+
+                            JSONArray comments = post.getJSONArray("comments");
+                            newPost.comments = new Comment[comments.length()];
+                            for (int cn = 0; cn < comments.length(); cn++) {
+                                JSONObject comment = comments.getJSONObject(cn);
+                                newPost.comments[cn] = new Comment();
+                                newPost.comments[cn].body = comment.getString("body");
+                                newPost.comments[cn].from = comment.getString("from");
+                            }
                             info.add(newPost);
+                            if(i == home.length() - 1){
+                                info.add(newPost);
+                            }
                         }
+
+                        ListView postListView = (ListView) findViewById(R.id.profileListView);
+
+
                         if (offset == 0) {
-                            PostAdapter postAdapter = new PostAdapter(parent_this, info);
+                            postAdapter = new PostAdapter(getApplicationContext(), info);
+                            postAdapter.setForProfile();
                             postListView.setAdapter(postAdapter);
-                            setListViewHeightBasedOnChildren(postListView);
-                        } else {
-                            PostAdapter postAdapter  =  (PostAdapter)postListView.getAdapter();
+                        }else {
                             postAdapter.addAll(info);
-                            setListViewHeightBasedOnChildren(postListView);
                         }
+
                         offset = offset + 5;
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(profile_layout.this);
-                        builder.setMessage("Loading Failed")
-                                .setNegativeButton("Retry", null)
-                                .create()
-                                .show();
                     }
 
                 } catch (JSONException e) {
@@ -252,7 +204,7 @@ public class profile_layout extends AppCompatActivity implements  AbsListView.On
             }
         };
         GetPost getPost = new GetPost(offset, username, profileUser, 0, postListener);
-        RequestQueue queue = Volley.newRequestQueue(profile_layout.this);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(getPost);
 
     }

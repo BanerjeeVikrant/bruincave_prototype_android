@@ -3,6 +3,7 @@ package com.example.banerjee.bruincave_new;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -65,7 +66,7 @@ public class ImageLinkLoad extends AsyncTask<Void, Void, Bitmap> {
     protected Bitmap doInBackground(Void... params) {
         try {
             Bitmap myBitmap = cachedBitmaps.get(url);
-            if (myBitmap == null) {
+            if (myBitmap == null && ! url.equals("http://www.bruincave.com/m/")) {
                 URL urlConnection = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection
                         .openConnection();
@@ -73,6 +74,10 @@ public class ImageLinkLoad extends AsyncTask<Void, Void, Bitmap> {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 myBitmap = BitmapFactory.decodeStream(input);
+                cachedBitmaps.put(url,myBitmap);
+                Log.d("YYY", "image loaded from url:"+url);
+            } else {
+                Log.d("YYY", "image reused from Cache:"+url);
             }
             return myBitmap;
         } catch (Exception e) {

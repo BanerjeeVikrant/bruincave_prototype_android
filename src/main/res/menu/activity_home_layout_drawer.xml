@@ -19,17 +19,5 @@
             android:title="Logout" />
     </group>
 
-    <item
-        android:title="Branham Trends"
-        android:checkableBehavior="single">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:title="Test 1" />
-            <item
-                android:id="@+id/nav_send"
-                android:title="Test 2" />
-        </menu>
-    </item>
 
 </menu>

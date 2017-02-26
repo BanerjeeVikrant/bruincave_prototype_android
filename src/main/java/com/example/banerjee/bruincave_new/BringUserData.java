@@ -14,11 +14,11 @@ public class BringUserData extends StringRequest{
     private static final String REGISTER_REQUEST_URL = "http://www.bruincave.com/m/andriod/bringuserdata.php";
     private Map<String, String> params;
 
-    public BringUserData(String user, String profileuser, Response.Listener<String> listener){
+    public BringUserData(String user, Response.Listener<String> listener){
         super(Request.Method.POST,   REGISTER_REQUEST_URL, listener, null);
 
         params = new HashMap<>();
-        params.put("puser", profileuser);
+        //params.put("puser", profileuser);
         params.put("user", user);
     }
 

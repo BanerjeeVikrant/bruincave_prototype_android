@@ -14,7 +14,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -55,6 +57,16 @@ public class followers_intent extends AppCompatActivity {
                 public void onClick(View view) {
                     Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
+                }
+            });
+
+            ImageButton back_follower = (ImageButton) findViewById(R.id.backProfileFollowers);
+            back_follower.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent profileIntent = new Intent(followers_intent.this, profile_layout.class);
+                    followers_intent.this.startActivity(profileIntent);
+                    overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
                 }
             });
         }

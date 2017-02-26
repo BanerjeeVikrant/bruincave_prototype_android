@@ -9,6 +9,37 @@
     tools:context="com.example.banerjee.bruincave_new.followers_intent"
     tools:showIn="@layout/activity_followers_intent">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#1d2d4a"
+        android:id="@+id/topBar">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/backProfileFollowers"
+            android:src="@drawable/backwhite"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="#1d2d4a" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Vikrant&apos;s profile"
+            android:id="@+id/textView8"
+            android:textColor="#fff"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="22dp" />
+
+    </LinearLayout>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

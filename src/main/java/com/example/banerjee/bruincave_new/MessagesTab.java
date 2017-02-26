@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -85,6 +88,7 @@ public class MessagesTab extends Fragment{
                             Log.d("users-id:", "" + usersObject.getInt("id"));
 
                             BringUsersMsgs newMsgsUsers =  new BringUsersMsgs();
+                            newMsgsUsers.id = usersObject.getInt("id");
                             newMsgsUsers.fromPic = usersObject.getString("fromPic");
                             newMsgsUsers.name = usersObject.getString("name");
                             newMsgsUsers.body = usersObject.getString("body");
@@ -98,10 +102,24 @@ public class MessagesTab extends Fragment{
                             UsersMsgAdapter usersMsgAdapter = new UsersMsgAdapter(getContext(), info);
                             if (usersMsgListView == null) { Log.d("Info3:", "usersMsgListView is null"); }
                             usersMsgListView.setAdapter(usersMsgAdapter);
+
                         } else {
                             UsersMsgAdapter usersMsgAdapter  =  (UsersMsgAdapter)usersMsgListView.getAdapter();
                             usersMsgAdapter.addAll(info);
                         }
+
+                        usersMsgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                // Start an alpha animation for clicked item
+                                Animation animation1 = new AlphaAnimation(0.3f, 1.0f);
+                                animation1.setDuration(4000);
+                                view.startAnimation(animation1);
+
+                                Log.d("This doesnt work", "try again");
+                            }
+                        });
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

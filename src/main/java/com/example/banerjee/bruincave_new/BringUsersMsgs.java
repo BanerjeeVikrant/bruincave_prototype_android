@@ -7,4 +7,5 @@ public class BringUsersMsgs {
     public String fromPic;
     public String name;
     public String body;
+    public int id;
 }

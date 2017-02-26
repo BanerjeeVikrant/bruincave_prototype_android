@@ -1,5 +1,6 @@
 package com.example.banerjee.bruincave_new;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,7 @@ public class HomeTab extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("XXX","HomeTab onCreate");
+
     }
 
     @Override
@@ -93,11 +95,19 @@ public class HomeTab extends Fragment{
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
                             Post newPost =  new Post();
+                            newPost.id = post.getInt("id");
                             newPost.userpic = post.getString("userpic");
                             newPost.name = post.getString("name");
                             newPost.time_added = post.getString("time_added");
                             newPost.body = post.getString("body");
+                            newPost.likedByMe = post.getInt("likedByMe");
                             newPost.picture_added = post.getString("picture_added");
+                            newPost.username = getArguments().getString("username");
+                            newPost.moreThanThreeLiker = post.getInt("moreThanThreeLiker");
+                            newPost.moreThanThreeComments = post.getInt("moreThanThreeComments");
+                            newPost.likesCount = post.getInt("likesCount");
+                            newPost.likedby = post.getString("likedby");
+
 
                             JSONArray comments = post.getJSONArray("comments");
                             newPost.comments = new Comment[comments.length()];
@@ -111,11 +121,23 @@ public class HomeTab extends Fragment{
                             //bringComments(post.getInt("id"));
                         }
                         ListView postListView = (ListView) getView().findViewById(R.id.listView);
-                        if (offset == 0) {
-                            postAdapter = new PostAdapter(getContext(), info);
-                            postListView.setAdapter(postAdapter);
+
+                        if(postListView.getAdapter()==null)
+                            if (offset == 0) {
+                                postAdapter = new PostAdapter(getContext(), info);
+                                postListView.setAdapter(postAdapter);
+                            }else {
+                                postAdapter.addAll(info);
+                            }
+                        else{
+                            if (offset == 0) {
+                                postAdapter = new PostAdapter(getContext(), info);
+                                postListView.setAdapter(postAdapter);
+                            }else {
+                                postAdapter.addAll(info);
+                            }
+                            postAdapter.notifyDataSetChanged();
                         }
-                        postAdapter.addAll(info);
 
                         offset = offset + 5;
                     }

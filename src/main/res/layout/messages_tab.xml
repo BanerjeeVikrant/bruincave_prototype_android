@@ -15,7 +15,8 @@
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:layout_marginTop="15dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+    />
 
     <ListView
         android:layout_width="match_parent"
