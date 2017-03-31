@@ -14,10 +14,11 @@ public class GetPost extends StringRequest {
     private static final String REGISTER_REQUEST_URL = "http://www.bruincave.com/m/andriod/bringposts.php";
     private Map<String, String> params;
 
-    public GetPost(int o, String user, String puser, int group, Response.Listener<String> listener){
+    public GetPost(int o, String user, String puser, int group, int type, Response.Listener<String> listener){
         super(Method.POST,   REGISTER_REQUEST_URL, listener, null);
 
         params = new HashMap<>();
+        params.put("type", type + "");
         params.put("o", o + "");
         params.put("user", user);
         params.put("puser", puser);

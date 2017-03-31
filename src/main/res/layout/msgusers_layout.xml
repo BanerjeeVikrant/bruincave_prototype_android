@@ -11,11 +11,10 @@
         android:layout_marginTop="10dp">
 
 
-        <ImageButton
+        <com.github.siyamed.shapeimageview.CircularImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/followerfromPic"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp" />
 

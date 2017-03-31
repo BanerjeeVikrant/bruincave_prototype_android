@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.banerjee.bruincave_new.SearchActivity"
+    tools:showIn="@layout/activity_search">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#1d2d4a"
+        android:id="@+id/topBar">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/backProfile"
+            android:src="@drawable/backwhite"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="#1d2d4a" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search"
+            android:background="@drawable/searchshape"
+            android:textColor="#fff"
+            android:hint="Search"
+            android:paddingLeft="20dp"
+            android:paddingBottom="6dp"
+            android:layout_marginRight="15dp"
+            android:drawableStart="@drawable/searcher"
+            android:drawablePadding="12dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/backProfile"
+            android:textColorHint="#fff" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchresults"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>

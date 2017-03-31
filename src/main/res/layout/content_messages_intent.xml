@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Vikrant Banerjee"
-            android:id="@+id/textView8"
+            android:id="@+id/nameOfUser"
             android:textColor="#fff"
             android:layout_marginTop="18dp"
             android:layout_marginLeft="5dp"
@@ -83,16 +83,15 @@
             android:layout_marginRight="80dp" />
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/sendMsgBtn"
-            android:layout_alignBottom="@+id/msgEditText"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="-5dp"
+            android:layout_marginRight="25dp"
             android:background="#1d2d4a"
-            android:src="@drawable/arrowright" />
+            android:src="@drawable/arrowright"
+            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 

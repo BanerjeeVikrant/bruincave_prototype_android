@@ -18,11 +18,11 @@
         android:textSize="20dp"
     />
 
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/usersMsgListView">
-
-    </ListView>
+        android:drawSelectorOnTop="true"
+        android:id="@+id/usersMsgListView" />
 
 </LinearLayout>

@@ -1,5 +1,9 @@
 package com.example.banerjee.bruincave_new;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -8,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -112,9 +117,12 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 //fix
         fontPTSerif = Typeface.createFromAsset(getAssets(),"fonts/PTSerif.ttf");
 
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("userinfo", MODE_PRIVATE);
 
         username = prefs.getString("username", null);
+
+        startService(new Intent(this, NotificationService.class));
+
         if (username == null) {
             Intent loginIntent = new Intent(home_layout.this, login_layout.class);
             home_layout.this.startActivity(loginIntent);
@@ -169,6 +177,16 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
 
                     }
+                }
+            });
+
+            EditText search = (EditText) findViewById(R.id.search);
+
+            search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    Intent searchIntent = new Intent(home_layout.this, SearchActivity.class);
+                    home_layout.this.startActivity(searchIntent);
                 }
             });
 
@@ -237,7 +255,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     }
                 }
             };
-            BringUserData bringUserData = new BringUserData(username, navListener);
+            BringUserData bringUserData = new BringUserData(username, username, navListener);
             RequestQueue queue3 = Volley.newRequestQueue(this);
             queue3.add(bringUserData);
 
@@ -247,10 +265,13 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
             MenuItem mi = m.getItem(m.size()-1);
             mi.setTitle(mi.getTitle());
+
+
         }
 
 
     }
+
 
 
     private int preLast = 0;
@@ -491,7 +512,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            Intent profileIntent = new Intent(home_layout.this, post_intent.class);
+            Intent profileIntent = new Intent(home_layout.this, profile_layout.class);
             home_layout.this.startActivity(profileIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(home_layout.this, settings_layout.class);

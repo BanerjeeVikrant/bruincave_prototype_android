@@ -1,6 +1,7 @@
 package com.example.banerjee.bruincave_new;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,9 +21,11 @@ import java.util.List;
  * Created by Vikrant Banerjee on 2/6/2017.
  */
 public class MessagesAdapter extends ArrayAdapter<Messages>{
+    private Typeface fontPTSerif;
     float fPixel = getContext().getResources().getDisplayMetrics().density;
     public MessagesAdapter(Context context, List<Messages> info) {
         super(context, R.layout.your_messages_layout, info);
+        fontPTSerif = Typeface.createFromAsset(context.getAssets(),"fonts/PTSerif.ttf");
     }
 
     @Override
@@ -36,6 +39,7 @@ public class MessagesAdapter extends ArrayAdapter<Messages>{
 
         LinearLayout messageBox = (LinearLayout) convertView.findViewById(R.id.messagebox);
         TextView body = (TextView) convertView.findViewById(R.id.messagebody);
+        body.setTypeface(fontPTSerif);
         if ((messageBox.getChildCount() > 0) && (messageBox.getChildAt(0) instanceof ImageView)) {
             messageBox.removeViewAt(0);
         }

@@ -11,6 +11,6 @@
     <color name="timestamp">#a0a3a7</color>
     <color name="colorPrimaryDarkLogin">#111c30</color>
 
-    <color name="postColorEdit">#ffa500</color>
-    <color name="anonColorEdit">#ebdbd8</color>
+    <color name="postColorEdit">#1d2d4a</color>
+    <color name="anonColorEdit">#1d2d4a</color>
 </resources>

@@ -66,6 +66,7 @@ public class MessagesTab extends Fragment{
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
     }
     public void bringUsersMsg(String username, String str){
         //final home_layout parent_this = this;

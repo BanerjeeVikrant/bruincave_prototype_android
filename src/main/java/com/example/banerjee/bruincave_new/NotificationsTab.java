@@ -67,6 +67,8 @@ public class NotificationsTab extends Fragment{
                             Notifications newNotifications =  new Notifications();
                             newNotifications.userpic = notificationsObject.getString("fromPic");
                             newNotifications.userFirst = notificationsObject.getString("fromFirst");
+                            newNotifications.body = notificationsObject.getString("body");
+                            newNotifications.time_added = notificationsObject.getString("time_added");
 
                             info.add(newNotifications);
 

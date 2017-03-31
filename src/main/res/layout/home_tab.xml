@@ -3,11 +3,96 @@
     android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#e6e6e6">
 
-    <ListView
+    <TabHost
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:id="@+id/tabHost"
+        android:layout_gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/postFromAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listView" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/postFromAllSop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewSop" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/postFromAllJun"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewJun" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/postFromAllSen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewSen" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/postFromFav"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listView2" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:background="#fff" />
+
+
+        </RelativeLayout>
+    </TabHost>
 
 </LinearLayout>

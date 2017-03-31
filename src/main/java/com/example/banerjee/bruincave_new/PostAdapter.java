@@ -2,9 +2,12 @@ package com.example.banerjee.bruincave_new;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,12 +16,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,8 +38,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
     private Typeface fontPTSerif;
     public PostAdapter(Context context, List<Post> info) {
         super(context, R.layout.post_layout, info);
-
         fontPTSerif = Typeface.createFromAsset(context.getAssets(),"fonts/PTSerif.ttf");
+
 
     }
     private boolean forProfile =  false;
@@ -43,13 +48,77 @@ public class PostAdapter extends ArrayAdapter<Post> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater postInflater = LayoutInflater.from(getContext());
+
         if (forProfile == true) {
             if (position == 0) {
                 convertView = postInflater.inflate(R.layout.profile_top_part, parent, false);
-                TextView name = (TextView) convertView.findViewById(R.id.nameProfile);
-                name.setText("Hello");
+                final TextView name = (TextView) convertView.findViewById(R.id.nameProfile);
+                final TextView bio =  (TextView) convertView.findViewById(R.id.bioInfo);
+                name.setTypeface(fontPTSerif);
+                bio.setTypeface(fontPTSerif);
+                final com.github.siyamed.shapeimageview.CircularImageView profilepic = (com.github.siyamed.shapeimageview.CircularImageView) convertView.findViewById(R.id.profilepic);
+                final ImageView banner = (ImageView) convertView.findViewById(R.id.bannerpic);
+                final RelativeLayout follow = (RelativeLayout) convertView.findViewById(R.id.followbtn);
+                final com.github.siyamed.shapeimageview.StarImageView starImageView = (com.github.siyamed.shapeimageview.StarImageView) convertView.findViewById(R.id.starBtn);
 
-                Button follow = (Button) convertView.findViewById(R.id.followbtn);
+                follow.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            //code area ...
+                            Log.v("TAG", "Hello");
+
+                            return true;
+                        } else{
+                            return false;
+                        }
+                    }
+                });
+
+                Response.Listener<String> userdataActionListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("RSP:", response);
+                            JSONObject jsonResponse = new JSONObject(response);
+
+                            if (jsonResponse != null) {
+                                JSONArray usersObject = jsonResponse.getJSONArray("userdata");
+                                JSONObject home = usersObject.getJSONObject(0);
+
+                                String firstname_info = home.getString("firstname");
+                                String lastname_info = home.getString("lastname");
+                                String profilepic_info = home.getString("userpic");
+                                String bannerpic_info = home.getString("bannerpic");
+                                String bio_info = home.getString("bio");
+                                int followcase = home.getInt("followcase");
+
+
+                                name.setText(firstname_info+" "+lastname_info);
+                                bio.setText(bio_info);
+                                new ImageLinkLoad(profilepic_info, profilepic).execute();
+                                new ImageLinkLoad(bannerpic_info, banner).execute();
+
+                                if(followcase == 0){
+                                    follow.setVisibility(View.GONE);
+                                } else if (followcase == 1) {
+                                    starImageView.setImageResource(R.drawable.yellowimage);
+                                } else{
+                                    new ImageLinkLoad(profilepic_info, starImageView).execute();
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                BringUserData bringUserData = new BringUserData("ssdf", "banerjeevikrant",userdataActionListener);
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                queue.add(bringUserData);
+
+
 
                 follow.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -70,6 +139,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 convertView = postInflater.inflate(R.layout.post_layout, parent, false);
             }
         }
+
+        final RelativeLayout options = (RelativeLayout) convertView.findViewById(R.id.options);
+
+        options.setVisibility(View.GONE);
 
         final Post post = getItem(position);
 
@@ -212,6 +285,62 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         new ImageLinkLoad(post.userpic, profileImageView).execute();
         new ImageLinkLoad(post.picture_added, pictureAddedView).execute();
+
+        //FOLLOW OR UNFOLLOW
+
+        ImageButton postViewAdd = (ImageButton) convertView.findViewById(R.id.postViewAdd);
+
+        postViewAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //final RelativeLayout options = (RelativeLayout) convertView.findViewById(R.id.options);
+                options.setVisibility(View.VISIBLE);
+            }
+        });
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                options.setVisibility(View.GONE);
+            }
+        });
+ /*
+        postViewAdd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                int userid = post.userid;
+
+                Response.Listener<String> likePostActionListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Log.d("RSPX:", response);
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+
+                            if (success) {
+                                Log.d("Success", "Success");
+
+                            } else {
+                                Log.d("RSPX", "failed");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Log.d("Success", userid + "");
+                FollowAction followAction = new FollowAction(username, userid, likePostActionListener);
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                queue.add(followAction);
+            }
+
+
+
+
+        });*/
 
         return convertView;
     }

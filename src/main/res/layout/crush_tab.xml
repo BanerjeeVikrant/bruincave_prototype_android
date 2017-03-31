@@ -3,9 +3,11 @@
     android:id="@+id/crush"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#32405a">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/crushlistView" />
+        android:id="@+id/crushlistView"
+        android:paddingTop="25dp"/>
 </LinearLayout>

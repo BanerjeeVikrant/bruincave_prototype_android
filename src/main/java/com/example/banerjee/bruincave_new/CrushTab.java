@@ -90,6 +90,9 @@ public class CrushTab extends Fragment{
                             Crush newCrush =  new Crush();
                             newCrush.time_added = crushObject.getString("time_added");
                             newCrush.body = crushObject.getString("body");
+                            newCrush.id = crushObject.getInt("id");
+                            newCrush.commentscount = crushObject.getInt("commentscount");
+                            Log.d("Bug", newCrush.id + "");
 
                             info.add(newCrush);
                         }

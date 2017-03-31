@@ -203,7 +203,7 @@ public class profile_layout extends AppCompatActivity {
                 }
             }
         };
-        GetPost getPost = new GetPost(offset, username, profileUser, 0, postListener);
+        GetPost getPost = new GetPost(offset, username, profileUser, 0, 0, postListener);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(getPost);
 

@@ -6,4 +6,6 @@ package com.example.banerjee.bruincave_new;
 public class Notifications {
     public String userpic;
     public String userFirst;
+    public String time_added;
+    public String body;
 }

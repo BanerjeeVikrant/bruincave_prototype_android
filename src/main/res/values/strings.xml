@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">bruincave_proto</string>
+    <string name="app_name">bruincave</string>
     <string name="title_activity_home_layout">bruincave</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -54,7 +54,7 @@
         <item>360</item>
         <item>-1</item>
     </string-array>
-    
+
     <string-array name="gender_list">
         <item>Gender</item>
         <item>Male</item>
@@ -86,4 +86,6 @@
     <string name="title_activity_messages_intent">messages_intent</string>
     <string name="title_activity_post_intent">post_intent</string>
     <string name="title_activity_register_layout">register_layout</string>
+    <string name="title_activity_crush_intent">crush_intent</string>
+    <string name="title_activity_search">SearchActivity</string>
 </resources>

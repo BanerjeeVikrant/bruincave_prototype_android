@@ -6,4 +6,6 @@ package com.example.banerjee.bruincave_new;
 public class Crush {
     public String time_added;
     public String body;
+    public int id;
+    public int commentscount;
 }
