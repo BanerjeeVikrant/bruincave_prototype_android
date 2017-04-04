@@ -45,6 +45,13 @@ public class UsersAdapter extends ArrayAdapter<BringUser> {
 
         final ImageButton favButton = (ImageButton) convertView.findViewById(R.id.imageButton);
 
+        if(bringUser.body == 1){
+            favButton.setImageResource(R.drawable.likefilled);
+        }
+        else{
+            favButton.setImageResource(R.drawable.likeoutline);
+        }
+
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

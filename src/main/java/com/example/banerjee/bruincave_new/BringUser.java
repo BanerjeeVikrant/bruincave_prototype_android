@@ -6,6 +6,6 @@ package com.example.banerjee.bruincave_new;
 public class BringUser {
     public String fromPic;
     public String name;
-    public String body;
+    public int body;
     public int id;
 }

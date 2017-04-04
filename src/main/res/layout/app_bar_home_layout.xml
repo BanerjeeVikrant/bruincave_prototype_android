@@ -11,12 +11,13 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="50dp"
             android:background="#1d2d4a"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
@@ -38,13 +39,14 @@
                 />
         </android.support.v7.widget.Toolbar>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#fff"
-                app:tabMode="fixed"
-                app:tabGravity="fill" />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff"
+            app:tabMode="fixed"
+            app:elevation="0dp"
+            app:tabGravity="fill" />
 
 
     </android.support.design.widget.AppBarLayout>

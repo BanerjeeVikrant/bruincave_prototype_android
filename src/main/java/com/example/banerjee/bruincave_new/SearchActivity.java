@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
@@ -35,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
         SharedPreferences prefs = getSharedPreferences("userinfo", MODE_PRIVATE);
 
         final String username = prefs.getString("username", null);
@@ -44,12 +46,12 @@ public class SearchActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent homeIntent = new Intent(SearchActivity.this, home_layout.class);
-                SearchActivity.this.startActivity(homeIntent);
+                SearchActivity.this.finish();
             }
         });
 
         final EditText search = (EditText) findViewById(R.id.search);
+
 
         search.addTextChangedListener(new TextWatcher() {
 
@@ -91,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
                             newMsgsUsers.id = usersObject.getInt("id");
                             newMsgsUsers.fromPic = usersObject.getString("fromPic");
                             newMsgsUsers.name = usersObject.getString("name");
-                            newMsgsUsers.body = usersObject.getString("body");
+                            newMsgsUsers.body = usersObject.getInt("following");
 
                             info.add(newMsgsUsers);
 
@@ -109,9 +111,9 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         };
-        BringUsers bringUsers = new BringUsers(username, str, usersListener);
+        BringSearchUsers bringSearchUsers = new BringSearchUsers(username, str, usersListener);
         RequestQueue queue3 = Volley.newRequestQueue(getApplicationContext());
-        queue3.add(bringUsers);
+        queue3.add(bringSearchUsers);
 
     }
 

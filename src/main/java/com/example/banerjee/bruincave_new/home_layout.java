@@ -48,6 +48,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.AbsListView;
@@ -114,6 +115,8 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_layout);
+
+        Log.d("AAA", "onCreate");
 //fix
         fontPTSerif = Typeface.createFromAsset(getAssets(),"fonts/PTSerif.ttf");
 
@@ -181,6 +184,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             });
 
             EditText search = (EditText) findViewById(R.id.search);
+            search.clearFocus();
 
             search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -272,7 +276,15 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        Log.d("AAA", "onStart");
+        EditText search = (EditText) findViewById(R.id.search);
+        search.clearFocus();
+
+    }
 
     private int preLast = 0;
 
@@ -431,7 +443,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
                     fab.setVisibility(View.VISIBLE);
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.anonColorEdit)));
-                    fab.setImageResource(R.drawable.anonymouslogoblue);
+                    fab.setImageResource(R.drawable.anonymouslogowhite);
 
                     break;
                 case 2:
@@ -448,10 +460,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     tabLayout.getTabAt(2).setIcon(tabIcons[2]);
                     tabLayout.getTabAt(3).setIcon(tabClickedIcons[3]);
 
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.postColorEdit)));
-                    fab.setImageResource(R.drawable.plussymbol);
+                    fab.setVisibility(View.INVISIBLE);
                     break;
                 default:
                     Log.d("Error", "Error");

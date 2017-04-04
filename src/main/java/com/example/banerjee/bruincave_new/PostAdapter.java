@@ -140,9 +140,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             }
         }
 
-        final RelativeLayout options = (RelativeLayout) convertView.findViewById(R.id.options);
-
-        options.setVisibility(View.GONE);
 
         final Post post = getItem(position);
 
@@ -288,22 +285,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         //FOLLOW OR UNFOLLOW
 
-        ImageButton postViewAdd = (ImageButton) convertView.findViewById(R.id.postViewAdd);
-
-        postViewAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //final RelativeLayout options = (RelativeLayout) convertView.findViewById(R.id.options);
-                options.setVisibility(View.VISIBLE);
-            }
-        });
-
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                options.setVisibility(View.GONE);
-            }
-        });
  /*
         postViewAdd.setOnClickListener(new View.OnClickListener() {
 

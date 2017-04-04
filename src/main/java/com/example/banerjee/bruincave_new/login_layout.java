@@ -34,6 +34,7 @@ public class login_layout extends AppCompatActivity {
         if (username != null) {
             Intent homeIntent = new Intent(login_layout.this, home_layout.class);
             login_layout.this.startActivity(homeIntent);
+            finish();
         } else {
 
             //login

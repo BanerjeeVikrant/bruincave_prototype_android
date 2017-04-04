@@ -60,6 +60,7 @@ public class HomeTab extends Fragment{
         // Inflate the layout for this fragment
         Log.d("XXX","HomeTab onCreateView");
 
+        createTab = true;
 
         offset = 0;
         offsetAll = 0;
@@ -74,14 +75,14 @@ public class HomeTab extends Fragment{
         super.onStart();
         Log.d("XXX","HomeTab onStart");
         if(createTab == true) {
-            TabHost tabHost = (TabHost) getView().findViewById(R.id.tabHost);
+            final TabHost tabHost = (TabHost) getView().findViewById(R.id.tabHost);
             tabHost.setup();
 
-            TabHost.TabSpec tab1 = tabHost.newTabSpec("Freshmen Tab");
-            TabHost.TabSpec tab2 = tabHost.newTabSpec("Sophomore Tab");
-            TabHost.TabSpec tab3 = tabHost.newTabSpec("Junior Tab");
-            TabHost.TabSpec tab4 = tabHost.newTabSpec("Senior Tab");
-            TabHost.TabSpec tab5 = tabHost.newTabSpec("Fav Tab");
+            final TabHost.TabSpec tab1 = tabHost.newTabSpec("Freshmen Tab");
+            final TabHost.TabSpec tab2 = tabHost.newTabSpec("Sophomore Tab");
+            final TabHost.TabSpec tab3 = tabHost.newTabSpec("Junior Tab");
+            final TabHost.TabSpec tab4 = tabHost.newTabSpec("Senior Tab");
+            final TabHost.TabSpec tab5 = tabHost.newTabSpec("Fav Tab");
 
             tab1.setContent(R.id.postFromAll);
             tab2.setContent(R.id.postFromAllSop);
@@ -89,19 +90,45 @@ public class HomeTab extends Fragment{
             tab4.setContent(R.id.postFromAllSen);
             tab5.setContent(R.id.postFromFav);
 
-            tab1.setIndicator("", getResources().getDrawable(R.drawable.freshcolor, null));
-            tab2.setIndicator("", getResources().getDrawable(R.drawable.sopcolor, null));
-            tab3.setIndicator("", getResources().getDrawable(R.drawable.juncolor, null));
-            tab4.setIndicator("", getResources().getDrawable(R.drawable.sencolor, null));
-            tab5.setIndicator("", getResources().getDrawable(R.drawable.add, null));
+            tab1.setIndicator("", getResources().getDrawable(R.drawable.freopenorclose, null));
+            tab2.setIndicator("", getResources().getDrawable(R.drawable.sopopenorclose, null));
+            tab3.setIndicator("", getResources().getDrawable(R.drawable.junopenorclose, null));
+            tab4.setIndicator("", getResources().getDrawable(R.drawable.senopenorclose, null));
+            tab5.setIndicator("", getResources().getDrawable(R.drawable.favopenorclose, null));
+
+            createTab = false;
+
+            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
+                public void onTabChanged(String tabId) {
+                    switch (tabHost.getCurrentTab()) {
+                        case 0:
+
+                            break;
+                        case 1:
+
+                            break;
+                        case 2:
+
+                            break;
+                        case 3:
+
+                            break;
+                        case 4:
+
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            });
 
             tabHost.addTab(tab1);
             tabHost.addTab(tab2);
             tabHost.addTab(tab3);
             tabHost.addTab(tab4);
             tabHost.addTab(tab5);
-
-            createTab = false;
         }
 
         bringPostsAll(getArguments().getString("username"), "");
