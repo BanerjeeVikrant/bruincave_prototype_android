@@ -3,6 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:elevation="0dp"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -14,9 +15,9 @@
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingTop="@dimen/feed_item_padding_top_bottom"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="-10dp"
-        android:id="@+id/relbody1">
+        android:id="@+id/relbody1"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="-10dp">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -44,7 +45,7 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
+                    android:textSize="17dp"
                     android:text="Error Error"
                     android:paddingLeft="5dp"
                     android:layout_marginTop="5dp"
@@ -93,34 +94,40 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:id="@+id/linbody1"
-        android:layout_below="@id/relbody1">
-
-        <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:id="@+id/likeButton"
-            android:background="#fff"
-            android:layout_marginRight="0dp"
-            android:scaleType="fitCenter"
-            android:padding="10dp"
-            android:src="@drawable/notlikedpaw" />
+        android:layout_below="@id/relbody1"
+        android:baselineAligned="true"
+        android:background="#fff">
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="75dp"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
             android:background="#fff"
             android:textColor="#000"
             android:hint="Comment"
             android:focusableInTouchMode="false"
-            android:paddingLeft="15dp"
-            android:id="@+id/commentEditText" />
+            android:paddingLeft="25dp"
+            android:id="@+id/commentEditText"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/likeButton"
+            android:background="#fff"
+            android:layout_marginRight="7dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/notlikedpaw"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp" />
 
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
+        android:layout_height="37dp"
         android:layout_gravity="center_horizontal"
         android:background="#f9f9f9"
         android:id="@+id/likeBody"
@@ -128,8 +135,8 @@
         android:padding="5dp">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/from"
             android:layout_marginLeft="10dp"
@@ -145,7 +152,7 @@
             android:textIsSelectable="true"
             android:text="Error"
             android:layout_marginTop="5dp"
-            android:textSize="16dp" />
+            android:textSize="15dp" />
     </LinearLayout>
 
     <LinearLayout

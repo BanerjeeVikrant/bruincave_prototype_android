@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.banerjee.bruincave_new">
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
@@ -13,34 +19,36 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".home_layout"
+            android:name="com.bruincave.banerjee.bruincave_new.home_layout"
             android:label="@string/title_activity_home_layout"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/splashScreenTheme" />
         <activity
-            android:name=".profile_layout"
+            android:name="com.bruincave.banerjee.bruincave_new.profile_layout"
             android:label="@string/title_activity_profile_layout"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name=".settings_layout" />
+        <activity android:name="com.bruincave.banerjee.bruincave_new.settings_layout" />
         <activity
-            android:name=".photos_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.photos_intent"
             android:label="@string/title_activity_photos_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".followers_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.followers_intent"
             android:label="@string/title_activity_followers_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".following_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.following_intent"
             android:label="@string/title_activity_following_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".post_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.post_intent"
             android:label="@string/title_activity_post_intent"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".login_layout"
+            android:name="com.bruincave.banerjee.bruincave_new.login_layout"
             android:label="@string/app_name"
-            android:theme="@style/AppThemeNoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,39 +56,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".messages_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.messages_intent"
             android:label="@string/title_activity_messages_intent"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".postHome_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.postHome_intent"
             android:label="@string/title_activity_messages_intent"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".postAnon_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.postAnon_intent"
             android:label="@string/title_activity_messages_intent"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".register_layout"
+            android:name="com.bruincave.banerjee.bruincave_new.register_layout"
             android:label="@string/title_activity_register_layout"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".register_layout2"
+            android:name="com.bruincave.banerjee.bruincave_new.register_layout2"
             android:label="@string/title_activity_register_layout"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".register_layout3"
+            android:name="com.bruincave.banerjee.bruincave_new.register_layout3"
             android:label="@string/title_activity_register_layout"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".crush_intent"
+            android:name="com.bruincave.banerjee.bruincave_new.crush_intent"
             android:label="@string/title_activity_crush_intent"
             android:theme="@style/AppThemeNoActionBar" />
 
         <service
-            android:name=".NotificationService"
-            android:exported="false"></service>
+            android:name="com.bruincave.banerjee.bruincave_new.NotificationService"
+            android:exported="false" />
 
-        <receiver android:name=".BootReciever">
+        <receiver android:name="com.bruincave.banerjee.bruincave_new.BootReciever">
             <intent-filter>
                 <action android:name="com.example.banerjee.bruincave_new" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -88,8 +96,13 @@
         </receiver>
 
         <activity
-            android:name=".SearchActivity"
+            android:name="com.bruincave.banerjee.bruincave_new.SearchActivity"
             android:label="@string/title_activity_search"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.bruincave.banerjee.bruincave_new.postHomeCamera_intent"
+            android:label="@string/title_activity_post_home_camera_intent"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

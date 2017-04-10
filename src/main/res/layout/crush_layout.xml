@@ -73,9 +73,9 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="#00ffffff"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="7dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,13 +85,13 @@
             android:layout_gravity="right"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:textSize="18dp"
+            android:textSize="16dp"
             android:layout_marginRight="25dp"
             android:textColor="#fff" />
 
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:id="@+id/commentCrush"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/numberOfComments"

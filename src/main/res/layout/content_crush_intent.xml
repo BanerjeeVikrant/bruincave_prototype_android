@@ -18,22 +18,12 @@
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/backProfileFollowers"
+            android:id="@+id/backProfile"
             android:src="@drawable/backwhite"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:background="#1d2d4a" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Vikrant&apos;s profile"
-            android:id="@+id/textView8"
-            android:textColor="#fff"
-            android:layout_marginTop="18dp"
-            android:layout_marginLeft="5dp"
-            android:textSize="22dp" />
 
     </LinearLayout>
     <RelativeLayout
@@ -91,7 +81,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff"
                                 android:textSize="@dimen/feed_item_timestamp"
-                                android:text="22 hours ago" />
+                                android:text="Loading.." />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -104,7 +94,7 @@
                         android:paddingRight="@dimen/feed_item_status_pad_left_right"
                         android:paddingTop="@dimen/feed_item_status_pad_top"
                         android:textSize="20dp"
-                        android:text="Hey Everyone how is it going"
+                        android:text="Loading.."
 
                         android:textColor="#fff" />
                 </LinearLayout>
@@ -117,20 +107,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:background="#f9f9f9"
+            android:background="#1d2d4a"
+            android:padding="12dp"
             android:id="@+id/relativeLayout2">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:id="@+id/commentEditText"
-                android:background="#b7b7b7"
+                android:background="#fff"
                 android:hint="Say something nice!"
                 android:gravity="top"
-                android:paddingLeft="10dp"
-                android:textSize="20dp"
-                android:textColorHint="#fff"
-                android:textColor="#fff" />
+                android:padding="10dp"
+                android:textSize="20dp" />
         </RelativeLayout>
 
     </RelativeLayout>

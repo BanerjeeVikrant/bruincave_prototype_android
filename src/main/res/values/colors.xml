@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#1d2d4a</color>
     <color name="colorPrimaryDark">#1d2d4a</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#1d2d4a</color>
     <color name="white">#ffffff</color>
     <color name="feed_bg">#d3d6db</color>
     <color name="feed_item_bg">#ffffff</color>
@@ -10,6 +10,7 @@
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
     <color name="colorPrimaryDarkLogin">#111c30</color>
+    <color name="themecolor">#1d2d4a</color>
 
     <color name="postColorEdit">#1d2d4a</color>
     <color name="anonColorEdit">#1d2d4a</color>

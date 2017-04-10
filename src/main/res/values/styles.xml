@@ -27,4 +27,8 @@
         <item name="android:background">#4080ff</item>
     </style>
 
+    <style name="splashScreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@drawable/likedpaw</item>
+    </style>
+
 </resources>

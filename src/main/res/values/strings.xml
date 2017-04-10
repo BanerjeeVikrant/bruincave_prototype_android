@@ -88,4 +88,5 @@
     <string name="title_activity_register_layout">register_layout</string>
     <string name="title_activity_crush_intent">crush_intent</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_post_home_camera_intent">postHomeCamera_intent</string>
 </resources>

@@ -22,7 +22,7 @@
             android:layout_alignParentStart="true"
             android:background="#1d2d4a" />
 
-        <TextView
+        TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -87,7 +87,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="23dp"
-                            android:text="Error Error"
+                            android:text="Loading.."
                             android:paddingLeft="5dp"
                             android:layout_marginBottom="3dp"
                             android:layout_marginTop="5dp"
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/timestamp"
                             android:textSize="20dp"
-                            android:text="\@Error"
+                            android:text="Loading.."
                             android:paddingLeft="5dp"
                             android:layout_below="@id/name"/>
                     </RelativeLayout>
@@ -115,7 +115,7 @@
                     android:paddingRight="@dimen/feed_item_status_pad_left_right"
                     android:paddingTop="@dimen/feed_item_status_pad_top"
                     android:textSize="25dp"
-                    android:text="Error"
+                    android:text="Loading"
                     android:layout_below="@+id/layoutBody"
                     android:layout_alignParentStart="true" />
 
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Error"
+                    android:text="Loading"
                     android:id="@+id/timestamp"
                     android:layout_below="@id/txtStatusMsg"
                     android:layout_marginLeft="15dp"
@@ -148,6 +148,16 @@
                 android:id="@+id/linbody1"
                 android:layout_below="@id/relbody1">
 
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="75dp"
+                    android:id="@+id/commentEditText"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#fff"
+                    android:textColor="#000"
+                    android:hint="Comment"
+                    android:layout_weight="1"
+                    android:paddingLeft="25dp" />
                 <ImageButton
                     android:layout_width="75dp"
                     android:layout_height="75dp"
@@ -157,16 +167,6 @@
                     android:scaleType="fitCenter"
                     android:padding="10dp"
                     android:src="@drawable/notlikedpaw" />
-
-                <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="75dp"
-                    android:id="@+id/commentEditText"
-                    android:layout_gravity="center_horizontal"
-                    android:background="#fff"
-                    android:textColor="#000"
-                    android:hint="Comment"
-                    android:paddingLeft="15dp" />
 
             </LinearLayout>
             <LinearLayout
@@ -197,7 +197,7 @@
                     android:layout_marginLeft="10dp"
                     android:textColor="#777272"
                     android:textIsSelectable="true"
-                    android:text="Error"
+                    android:text="Loading.."
                     android:layout_marginTop="5dp" />
             </LinearLayout>
 

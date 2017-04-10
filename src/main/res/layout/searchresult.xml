@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
             android:text="Error"
             android:id="@+id/nameView"
             android:textSize="20dp"
+            android:textColor="#515151"
             android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/imageView" />

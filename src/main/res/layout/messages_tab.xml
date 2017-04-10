@@ -15,9 +15,9 @@
         android:hint="Lookup"
         android:background="#f7f7f7"
         android:paddingLeft="15dp"
-        android:paddingTop="17dp"
-        android:paddingBottom="17dp"
-        android:textSize="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="16dp"
     />
 
 

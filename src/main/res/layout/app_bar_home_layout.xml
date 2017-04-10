@@ -22,21 +22,30 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-            <EditText
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/search"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/searchshape"
-                android:textColor="#fff"
-                android:hint="Search"
-                android:paddingLeft="20dp"
-                android:paddingBottom="6dp"
-                android:layout_marginRight="15dp"
-                android:drawableStart="@drawable/searcher"
-                android:drawablePadding="12dp"
-                android:clickable="true"
-                />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading.."
+                    android:id="@+id/headingText"
+                    android:textSize="19dp"
+                    android:textColor="#fff"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true" />
+
+                <ImageButton
+                    android:layout_width="55dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ripple"
+                    android:src="@drawable/searcher"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/search" />
+
+            </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
@@ -57,30 +66,30 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabTextPost"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="225dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="212dp"
         android:src="@drawable/textcursor"
         app:backgroundTint="#1d2d4a"
         android:scaleType="center" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPhotoPost"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="155dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="150dp"
         android:src="@drawable/iconcamera"
         app:backgroundTint="#1d2d4a"
         android:scaleType="center" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPost"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_gravity="bottom|end"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
