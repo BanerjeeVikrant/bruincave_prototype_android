@@ -45,7 +45,7 @@ public class postAnon_intent extends AppCompatActivity {
             }
         });
 
-        Button send_btn = (Button) findViewById(R.id.btnPostCrush);
+        ImageButton send_btn = (ImageButton) findViewById(R.id.btnPostCrush);
 
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,14 +6,6 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/logedInBanImage"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop" />
-
     <com.github.siyamed.shapeimageview.CircularImageView
         android:layout_width="85dp"
         android:layout_height="85dp"
@@ -46,5 +38,20 @@
         android:layout_alignStart="@+id/logedInName"
         android:textSize="17dp"
         android:layout_marginTop="5dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Change Picture"
+        android:id="@+id/changepropic"
+        android:textSize="12dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/rippleforwhite"
+        android:textColor="@color/themecolor"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_alignTop="@+id/logedInProImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp" />
 </RelativeLayout>
 

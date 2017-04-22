@@ -1,6 +1,7 @@
 package com.bruincave.banerjee.bruincave_new;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -25,7 +27,12 @@ import java.util.ArrayList;
  * Created by Vikrant Banerjee on 2/8/2017.
  */
 public class NotificationsTab extends Fragment{
+
     private int offset_notifications = 0;
+    private int preLast = 0;
+    private boolean createTab = true;
+    private View footerView;
+
     public NotificationsTab() {
         // Required empty public constructor
     }
@@ -39,16 +46,51 @@ public class NotificationsTab extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        createTab = true;
         offset_notifications = 0;
         return inflater.inflate(R.layout.notifications_tab, container, false);
     }
     @Override
     public void onStart() {
         super.onStart();
-        bringNotifications(getArguments().getString("username"));
+        if(getView() != null) {
+            bringNotifications(getArguments().getString("username"));
+        }
+
+        ListView notificationListView = (ListView) getView().findViewById(R.id.notiListView);
+
+        if(createTab) {
+            createTab = false;
+            footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+            notificationListView.addFooterView(footerView);
+        }
+
+        notificationListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount) {
+                    if(preLast!=lastItem) {
+                        if (totalItemCount != 0) {
+                            bringNotifications(getArguments().getString("username"));
+                        }
+                        Log.d("ZZZAll", offset_notifications + "");
+
+                        preLast = lastItem;
+                    }
+                }
+            }
+        });
     }
+    NotificationsAdapter notificationsAdapter = null;
     public void bringNotifications(String username){
         //final home_layout parent_this = this;
+        final View currView = getView();
         Response.Listener<String> notificationsListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -70,24 +112,38 @@ public class NotificationsTab extends Fragment{
                             newNotifications.userFirst = notificationsObject.getString("fromFirst");
                             newNotifications.body = notificationsObject.getString("body");
                             newNotifications.time_added = notificationsObject.getString("time_added");
-
+                            newNotifications.postid = notificationsObject.getInt("postid");
+                            newNotifications.type = notificationsObject.getInt("type");
                             info.add(newNotifications);
 
 
                         }
-                        ListView notificationsListView = (ListView) getView().findViewById(R.id.notiListView);
-                        if (offset_notifications == 0) {
-                            NotificationsAdapter notificationsAdapter = new NotificationsAdapter(getContext(),info);
-                            notificationsListView.setAdapter(notificationsAdapter);
-                        } else {
-                            NotificationsAdapter notificationsAdapter  =  (NotificationsAdapter)notificationsListView.getAdapter();
-                            notificationsAdapter.addAll(info);
+                        ListView notificationsListView = (ListView) currView.findViewById(R.id.notiListView);
+                        if(notificationsListView.getAdapter()==null)
+                            if (offset_notifications == 0) {
+                                notificationsAdapter = new NotificationsAdapter(getContext(), info);
+                                notificationsListView.setAdapter(notificationsAdapter);
+                            }else {
+                                notificationsAdapter.addAll(info);
+                            }
+                        else{
+                            if (offset_notifications == 0) {
+                                notificationsAdapter = new NotificationsAdapter(getContext(), info);
+                                notificationsListView.setAdapter(notificationsAdapter);
+                            }else {
+                                notificationsAdapter.addAll(info);
+                            }
+                            notificationsAdapter.notifyDataSetChanged();
                         }
                         offset_notifications = offset_notifications + 5;
+                        Log.d("notificationoffset", offset_notifications + "");
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ListView notificationsListView = (ListView) currView.findViewById(R.id.notiListView);
+
+                    notificationsListView.removeFooterView(footerView);
                 }
 
             }

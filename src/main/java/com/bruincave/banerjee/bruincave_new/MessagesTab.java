@@ -49,7 +49,9 @@ public class MessagesTab extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        bringUsersMsg(getArguments().getString("username"), "");
+        if(getView() != null) {
+            bringUsersMsg(getArguments().getString("username"), "");
+        }
 
         final EditText searchFollowersEdit = (EditText) getView().findViewById(R.id.searchUsers);
 
@@ -71,6 +73,7 @@ public class MessagesTab extends Fragment{
     }
     public void bringUsersMsg(String username, String str){
         //final home_layout parent_this = this;
+        final View currView = getView();
         Response.Listener<String> usersListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -81,7 +84,7 @@ public class MessagesTab extends Fragment{
                     if (usersResponse != null) {
                         JSONArray usersArray = usersResponse.getJSONArray("usersMsg");
                         //LinearLayout usersLayout = (LinearLayout) findViewById(R.id.userswrapper);
-                        ListView usersMsgListView = (ListView) getView().findViewById(R.id.usersMsgListView);
+                        ListView usersMsgListView = (ListView) currView.findViewById(R.id.usersMsgListView);
                         if (usersMsgListView == null) { Log.d("Info1:", "usersMsgListView is null"); }
                         ArrayList<BringUsersMsgs> info = new ArrayList<BringUsersMsgs>();
 

@@ -86,7 +86,13 @@ public class HomeTab extends Fragment{
         super.onStart();
         Log.d("XXX","HomeTab onStart");
 
-        if(createTab == true) {
+        ListView postAllListView = (ListView) getView().findViewById(R.id.listView);
+        ListView postAllListViewSop = (ListView) getView().findViewById(R.id.listViewSop);
+        ListView postAllListViewJun = (ListView) getView().findViewById(R.id.listViewJun);
+        ListView postAllListViewSen = (ListView) getView().findViewById(R.id.listViewSen);
+        ListView postListView = (ListView) getView().findViewById(R.id.listView2);
+
+        if(createTab) {
             SharedPreferences prefs = this.getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
             username = prefs.getString("username", null);
 
@@ -140,11 +146,11 @@ public class HomeTab extends Fragment{
                                 }
                                 else if(current_grade == 11){
                                     current_grade_name = "Junior";
-                                    tabHost.setCurrentTab(3);
+                                    tabHost.setCurrentTab(2);
                                 }
                                 else if(current_grade == 12){
                                     current_grade_name = "Senior";
-                                    tabHost.setCurrentTab(4);
+                                    tabHost.setCurrentTab(3);
                                 }
 
                             }
@@ -161,26 +167,27 @@ public class HomeTab extends Fragment{
             tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 
                 public void onTabChanged(String tabId) {
-                    switch (tabHost.getCurrentTab()) {
-                        case 0:
-                            headingText.setText("Freshmen");
-                            break;
-                        case 1:
-                            headingText.setText("Sophomore");
-                            break;
-                        case 2:
-                            headingText.setText("Junior");
-                            break;
-                        case 3:
-                            headingText.setText("Senior");
-                            break;
-                        case 4:
-                            headingText.setText("Favorites");
-                            break;
-                        default:
+                switch (tabHost.getCurrentTab()) {
+                    case 0:
+                        headingText.setText("Freshmen");
+                        Log.d("Nowit", "thischangingit");
+                        break;
+                    case 1:
+                        headingText.setText("Sophomore");
+                        break;
+                    case 2:
+                        headingText.setText("Junior");
+                        break;
+                    case 3:
+                        headingText.setText("Senior");
+                        break;
+                    case 4:
+                        headingText.setText("Favorites");
+                        break;
+                    default:
 
-                            break;
-                    }
+                        break;
+                }
 
                 }
             });
@@ -190,27 +197,24 @@ public class HomeTab extends Fragment{
             tabHost.addTab(tab3);
             tabHost.addTab(tab4);
             tabHost.addTab(tab5);
+
+
+            footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+
+            postAllListView.addFooterView(footerView);
+            postAllListViewSop.addFooterView(footerView);
+            postAllListViewJun.addFooterView(footerView);
+            postAllListViewSen.addFooterView(footerView);
+            postListView.addFooterView(footerView);
+        }
+        if(getView() != null) {
+            bringPostsAll(getArguments().getString("username"), "");
+            bringPostsAllSop(getArguments().getString("username"), "");
+            bringPosts(getArguments().getString("username"), "from if null");
+            bringPostsAllJun(getArguments().getString("username"), "");
+            bringPostsAllSen(getArguments().getString("username"), "");
         }
 
-        bringPostsAll(getArguments().getString("username"), "");
-        bringPostsAllSop(getArguments().getString("username"), "");
-        bringPosts(getArguments().getString("username"), "");
-        bringPostsAllJun(getArguments().getString("username"), "");
-        bringPostsAllSen(getArguments().getString("username"), "");
-
-        ListView postAllListView = (ListView) getView().findViewById(R.id.listView);
-        ListView postAllListViewSop = (ListView) getView().findViewById(R.id.listViewSop);
-        ListView postAllListViewJun = (ListView) getView().findViewById(R.id.listViewJun);
-        ListView postAllListViewSen = (ListView) getView().findViewById(R.id.listViewSen);
-        ListView postListView = (ListView) getView().findViewById(R.id.listView2);
-
-        footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
-
-        postAllListView.addFooterView(footerView);
-        postAllListViewSop.addFooterView(footerView);
-        postAllListViewJun.addFooterView(footerView);
-        postAllListViewSen.addFooterView(footerView);
-        postListView.addFooterView(footerView);
 
         postListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -224,7 +228,9 @@ public class HomeTab extends Fragment{
                 if(lastItem == totalItemCount) {
                     if(preLast!=lastItem) {
 
-                        bringPosts(getArguments().getString("username"), "");
+                        if(totalItemCount != 0) {
+                            bringPosts(getArguments().getString("username"), "from scroll");
+                        }
 
                         Log.d("ZZZ", offset + "");
 
@@ -245,8 +251,9 @@ public class HomeTab extends Fragment{
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAll!=lastItem) {
-
-                        bringPostsAll(getArguments().getString("username"), "");
+                        if(totalItemCount != 0) {
+                            bringPostsAll(getArguments().getString("username"), "");
+                        }
 
                         Log.d("ZZZAll", offset + "");
 
@@ -267,8 +274,9 @@ public class HomeTab extends Fragment{
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllSop!=lastItem) {
-
-                        bringPostsAllSop(getArguments().getString("username"), "");
+                        if(totalItemCount != 0) {
+                            bringPostsAllSop(getArguments().getString("username"), "");
+                        }
 
                         Log.d("ZZZAll", offset + "");
 
@@ -289,8 +297,9 @@ public class HomeTab extends Fragment{
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllJun!=lastItem) {
-
-                        bringPostsAllJun(getArguments().getString("username"), "");
+                        if(totalItemCount != 0) {
+                            bringPostsAllJun(getArguments().getString("username"), "");
+                        }
 
                         Log.d("ZZZAll", offset + "");
 
@@ -311,8 +320,9 @@ public class HomeTab extends Fragment{
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllSen!=lastItem) {
-
-                        bringPostsAllSen(getArguments().getString("username"), "");
+                        if(totalItemCount != 0) {
+                            bringPostsAllSen(getArguments().getString("username"), "");
+                        }
 
                         Log.d("ZZZAll", offset + "");
 
@@ -324,15 +334,53 @@ public class HomeTab extends Fragment{
 
     }
 
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+//        final TabHost tabHost = (TabHost) getView().findViewById(R.id.tabHost);
+/*
+        if(menuVisible){
+            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
+                public void onTabChanged(String tabId) {
+                switch (tabHost.getCurrentTab()) {
+                    case 0:
+                        headingText.setText("Freshmen");
+                        Log.d("Nowit", "thischangingit");
+                        break;
+                    case 1:
+                        headingText.setText("Sophomore");
+                        break;
+                    case 2:
+                        headingText.setText("Junior");
+                        break;
+                    case 3:
+                        headingText.setText("Senior");
+                        break;
+                    case 4:
+                        headingText.setText("Favorites");
+                        break;
+                    default:
+
+                        break;
+                }
+
+                }
+            });
+        }
+        */
+    }
+
     PostAdapter postAdapter = null;
     public void bringPosts(String username, String profileUser) {
-        Log.d("username", username);
-        Log.d("profileusername", profileUser);
+        Log.d("bringpost", offset + "," + profileUser);
+        final View currView = getView();
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("disapearpost", response);
                     Log.d("RSPXXX:", response);
                     JSONObject jsonResponse = new JSONObject(response);
 
@@ -340,6 +388,11 @@ public class HomeTab extends Fragment{
                         JSONArray home = jsonResponse.getJSONArray("home");
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
+
+                        if(home.length() == 0){
+                            ListView postListView = (ListView) currView.findViewById(R.id.listView2);
+                            postListView.removeFooterView(footerView);
+                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -370,7 +423,7 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                            ListView postListView = (ListView) getView().findViewById(R.id.listView2);
+                            ListView postListView = (ListView) currView.findViewById(R.id.listView2);
 
 
 
@@ -397,8 +450,8 @@ public class HomeTab extends Fragment{
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d("Finish", "listView2");
-                    ListView postListView = (ListView) getView().findViewById(R.id.listView2);
-
+                    ListView postListView = (ListView) currView.findViewById(R.id.listView2);
+                    Log.d("disapearpost", response);
                     postListView.removeFooterView(footerView);
                 }
             }
@@ -414,6 +467,7 @@ public class HomeTab extends Fragment{
     public void bringPostsAll(String username, String profileUser) {
         Log.d("username", username);
         Log.d("profileusername", profileUser);
+        final View currView = getView();
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -428,6 +482,11 @@ public class HomeTab extends Fragment{
                         ArrayList<Post> info = new ArrayList<Post>();
 
                         Log.d("Debug", "inside json");
+
+                        if(home.length() == 0){
+                            ListView postListView = (ListView) currView.findViewById(R.id.listView);
+                            postListView.removeFooterView(footerView);
+                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -459,7 +518,7 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) getView().findViewById(R.id.listView);
+                        ListView postListView = (ListView) currView.findViewById(R.id.listView);
 
                         if(postListView.getAdapter()==null)
                             if (offsetAll == 0) {
@@ -483,8 +542,7 @@ public class HomeTab extends Fragment{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) getView().findViewById(R.id.listView);
-
+                    ListView postListView = (ListView) currView.findViewById(R.id.listView);
                     postListView.removeFooterView(footerView);
                 }
             }
@@ -500,11 +558,13 @@ public class HomeTab extends Fragment{
         Log.d("username", username);
         Log.d("profileusername", profileUser);
         Log.d("debug", "called sop");
+        final View currView = getView();
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.d("disapear", response);
                     Log.d("RSPXXXAll:", response);
                     JSONObject jsonResponse = new JSONObject(response);
 
@@ -514,6 +574,10 @@ public class HomeTab extends Fragment{
                         ArrayList<Post> info = new ArrayList<Post>();
 
                         Log.d("Debug", "inside json");
+                        if(home.length() == 0){
+                            ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
+                            postListView.removeFooterView(footerView);
+                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -545,7 +609,7 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) getView().findViewById(R.id.listViewSop);
+                        ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
 
                         if(postListView.getAdapter()==null)
                             if (offsetAllSop == 0) {
@@ -569,9 +633,11 @@ public class HomeTab extends Fragment{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) getView().findViewById(R.id.listViewSop);
+                    ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
 
                     postListView.removeFooterView(footerView);
+
+                    Log.d("disapear", "try");
                 }
             }
         };
@@ -585,6 +651,7 @@ public class HomeTab extends Fragment{
     public void bringPostsAllJun(String username, String profileUser) {
         Log.d("username", username);
         Log.d("profileusername", profileUser);
+        final View currView = getView();
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -598,6 +665,10 @@ public class HomeTab extends Fragment{
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
 
+                        if(home.length() == 0){
+                            ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
+                            postListView.removeFooterView(footerView);
+                        }
                         Log.d("Debug", "inside json");
 
                         for (int i = 0; i < home.length(); i++) {
@@ -630,31 +701,33 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) getView().findViewById(R.id.listViewJun);
+                        if (getView() !=  null) {
+                            ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
 
-                        if(postListView.getAdapter()==null)
-                            if (offsetAllJun == 0) {
-                                postAdapterAllJun = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllJun);
-                            }else {
-                                postAdapterAllJun.addAll(info);
+                            if (postListView.getAdapter() == null)
+                                if (offsetAllJun == 0) {
+                                    postAdapterAllJun = new PostAdapter(getContext(), info);
+                                    postListView.setAdapter(postAdapterAllJun);
+                                } else {
+                                    postAdapterAllJun.addAll(info);
+                                }
+                            else {
+                                if (offsetAllJun == 0) {
+                                    postAdapterAllJun = new PostAdapter(getContext(), info);
+                                    postListView.setAdapter(postAdapterAllJun);
+                                } else {
+                                    postAdapterAllJun.addAll(info);
+                                }
+                                postAdapterAllJun.notifyDataSetChanged();
                             }
-                        else{
-                            if (offsetAllJun == 0) {
-                                postAdapterAllJun = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllJun);
-                            }else {
-                                postAdapterAllJun.addAll(info);
-                            }
-                            postAdapterAllJun.notifyDataSetChanged();
+
+                            offsetAllJun = offsetAllJun + 5;
                         }
-
-                        offsetAllJun = offsetAllJun + 5;
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) getView().findViewById(R.id.listViewJun);
+                    ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
 
                     postListView.removeFooterView(footerView);
                 }
@@ -670,6 +743,7 @@ public class HomeTab extends Fragment{
     public void bringPostsAllSen(String username, String profileUser) {
         Log.d("username", username);
         Log.d("profileusername", profileUser);
+        final View currView = getView();
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -682,7 +756,10 @@ public class HomeTab extends Fragment{
                         JSONArray home = jsonResponse.getJSONArray("home");
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
-
+                        if(home.length() == 0){
+                            ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
+                            postListView.removeFooterView(footerView);
+                        }
                         Log.d("Debug", "inside json");
 
                         for (int i = 0; i < home.length(); i++) {
@@ -715,7 +792,7 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) getView().findViewById(R.id.listViewSen);
+                        ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
 
                         if(postListView.getAdapter()==null)
                             if (offsetAllSen == 0) {
@@ -739,7 +816,7 @@ public class HomeTab extends Fragment{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) getView().findViewById(R.id.listViewSen);
+                    ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
 
                     postListView.removeFooterView(footerView);
                 }

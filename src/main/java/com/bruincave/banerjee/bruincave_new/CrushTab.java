@@ -29,6 +29,8 @@ public class CrushTab extends Fragment{
     private int offset_crush = 0;
     private int preLast = 0;
     private View footerView;
+    private boolean createTab = true;
+
     public CrushTab() {
         // Required empty public constructor
     }
@@ -42,18 +44,25 @@ public class CrushTab extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        createTab = true;
         offset_crush = 0;
         return inflater.inflate(R.layout.crush_tab, container, false);
     }
     @Override
     public void onStart() {
         super.onStart();
-        bringCrush();
+        if(getView() != null) {
+            bringCrush();
+        }
         ListView crushListView = (ListView) getView().findViewById(R.id.crushlistView);
 
-        footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+        if(createTab){
+            createTab = false;
+            footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+            crushListView.addFooterView(footerView);
+        }
 
-        crushListView.addFooterView(footerView);
+
         crushListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -65,8 +74,9 @@ public class CrushTab extends Fragment{
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLast!=lastItem) {
-
-                        bringCrush();
+                        if (totalItemCount != 0) {
+                            bringCrush();
+                        }
 
                         Log.d("info-crush", offset_crush + "");
 
@@ -79,6 +89,7 @@ public class CrushTab extends Fragment{
 
     CrushAdapter crushAdapter = null;
     public void bringCrush(){
+        final View currView = getView();
         Response.Listener<String> crushListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -105,7 +116,7 @@ public class CrushTab extends Fragment{
                             info.add(newCrush);
                         }
 
-                        ListView crushListView = (ListView) getView().findViewById(R.id.crushlistView);
+                        ListView crushListView = (ListView) currView.findViewById(R.id.crushlistView);
 
                         Log.d("Action", "Still in this loop");
 
@@ -121,7 +132,7 @@ public class CrushTab extends Fragment{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView crushListView = (ListView) getView().findViewById(R.id.crushlistView);
+                    ListView crushListView = (ListView) currView.findViewById(R.id.crushlistView);
 
                     crushListView.removeFooterView(footerView);
                 }

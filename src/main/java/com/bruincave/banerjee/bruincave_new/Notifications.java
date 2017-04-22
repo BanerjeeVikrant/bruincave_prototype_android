@@ -8,4 +8,6 @@ public class Notifications {
     public String userFirst;
     public String time_added;
     public String body;
+    public int postid;
+    public int type;
 }

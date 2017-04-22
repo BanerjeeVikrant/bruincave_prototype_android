@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.bruincave.banerjee.bruincave_new.settings_layout"
+    tools:showIn="@layout/activity_settings_layout">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#1d2d4a"
+        android:id="@+id/topBar">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/backProfile"
+            android:src="@drawable/backwhite"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/ripple"
+            android:scaleType="centerInside"
+            android:forceHasOverlappingRendering="true"
+            android:padding="15dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:id="@+id/btnPostHome"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:background="#1d2d4a"
+            android:textColor="#fff"
+            android:textSize="19dp" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/usernameET"
+        android:layout_below="@+id/topBar"
+        android:layout_alignParentStart="true"
+        android:hint="Username"
+        android:background="#fff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:drawableStart="@drawable/user"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordET"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/usernameET"
+        android:hint="Password"
+        android:background="#fff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:drawableStart="@drawable/password"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="15dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordAgainET"
+        android:layout_below="@+id/passwordET"
+        android:layout_alignParentStart="true"
+        android:hint="Confirm Password"
+        android:background="#fff"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:drawableStart="@drawable/confirm"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="15dp" />
+</RelativeLayout>

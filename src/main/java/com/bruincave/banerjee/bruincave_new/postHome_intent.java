@@ -41,7 +41,7 @@ public class postHome_intent extends AppCompatActivity {
             }
         });
 
-        Button send_btn = (Button) findViewById(R.id.btnPostHome);
+        ImageButton send_btn = (ImageButton) findViewById(R.id.btnPostHome);
 
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override

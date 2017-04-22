@@ -66,6 +66,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -88,6 +89,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     private FloatingActionButton fab;
     private FloatingActionButton fabText;
     private FloatingActionButton fabPhoto;
+    private FloatingActionButton fabCamera;
     private int offset = 0;
     private int offset_crush = 0;
     private int offset_notifications = 0;
@@ -167,11 +169,20 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                                 TextView logedInName = (TextView) hView.findViewById(R.id.logedInName);
                                 com.github.siyamed.shapeimageview.CircularImageView logedInProImage = (com.github.siyamed.shapeimageview.CircularImageView) hView.findViewById(R.id.logedInProImage);
                                 TextView logedInUsername = (TextView) hView.findViewById(R.id.logedInUsername);
+                                Button changeProPic = (Button) hView.findViewById(R.id.changepropic);
 
                                 logedInName.setText(usersObject.getString("firstname")+" "+usersObject.getString("lastname"));
                                 logedInUsername.setText("@"+username);
                                 logedInName.setTypeface(fontPTSerif);
                                 logedInUsername.setTypeface(fontPTSerif);
+
+                                changeProPic.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent proPicUpload = new Intent(home_layout.this, uploadProfilePic.class);
+                                        home_layout.this.startActivity(proPicUpload);
+                                    }
+                                });
 
                                 current_grade = usersObject.getInt("grade");
                                 if(current_grade == 9){
@@ -202,9 +213,11 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             fab = (FloatingActionButton) findViewById(R.id.fabPost);
             fabText = (FloatingActionButton) findViewById(R.id.fabTextPost);
             fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhotoPost);
+            fabCamera = (FloatingActionButton) findViewById(R.id.fabCameraPost);
 
             fabText.setVisibility(View.GONE);
             fabPhoto.setVisibility(View.GONE);
+            fabCamera.setVisibility(View.GONE);
 
             fabText.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -223,6 +236,14 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                 }
             });
 
+            fabCamera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent openCameraPost = new Intent(home_layout.this, postCamera_intent.class);
+                    home_layout.this.startActivity(openCameraPost);
+                }
+            });
+
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -231,9 +252,11 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                             if (fabText.getVisibility() == View.VISIBLE) {
                                 fabText.setVisibility(View.GONE);
                                 fabPhoto.setVisibility(View.GONE);
+                                fabCamera.setVisibility(View.GONE);
                             } else {
                                 fabText.setVisibility(View.VISIBLE);
                                 fabPhoto.setVisibility(View.VISIBLE);
+                                fabCamera.setVisibility(View.VISIBLE);
                             }
 
                             break;
@@ -297,13 +320,36 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
             toggle.syncState();
 
             //Fix the navigation Bar
-
+            /*
             Menu m = navigationView.getMenu();
             SubMenu branhamTrendsMenu = m.addSubMenu("Branham Trends");
-            branhamTrendsMenu.add("");
+            branhamTrendsMenu.add(0, 10, Menu.NONE, "Get Last 5 Packets");
+            branhamTrendsMenu.add(0, 15, Menu.NONE, "Get Last 10 Packets");
+            branhamTrendsMenu.add(0, 20, Menu.NONE, "Get Last 20 Packets");
 
             MenuItem mi = m.getItem(m.size()-1);
             mi.setTitle(mi.getTitle());
+
+            mi.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case 10:
+                            Toast.makeText(home_layout.this, "Now "+item.getItemId(), Toast.LENGTH_SHORT).show();
+                            return true;
+                        case 15:
+                            Toast.makeText(home_layout.this, "Now = "+item.getItemId(), Toast.LENGTH_SHORT).show();
+                            return true;
+                        case 20:
+                            Toast.makeText(home_layout.this, "Now == "+item.getItemId(), Toast.LENGTH_SHORT).show();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
+
+            */
 
 
         }
@@ -485,7 +531,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
                     fab.setVisibility(View.VISIBLE);
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.anonColorEdit)));
-                    fab.setImageResource(R.drawable.anonymouslogowhite);
+                    fab.setImageResource(R.drawable.anonymouslogo);
 
                     CoordinatorLayout.LayoutParams paramsd = (CoordinatorLayout.LayoutParams)fab.getLayoutParams();
                     int pxd = (int) TypedValue.applyDimension(
@@ -499,6 +545,7 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
                     fabText.setVisibility(View.GONE);
                     fabPhoto.setVisibility(View.GONE);
+                    fabCamera.setVisibility(View.GONE);
 
                     headingText.setText("Anonymous");
 
@@ -511,6 +558,10 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
 
                     fab.setVisibility(View.INVISIBLE);
 
+                    fabText.setVisibility(View.GONE);
+                    fabPhoto.setVisibility(View.GONE);
+                    fabCamera.setVisibility(View.GONE);
+
                     headingText.setText("Notifications");
                     break;
                 case 3:
@@ -520,6 +571,10 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
                     tabLayout.getTabAt(3).setIcon(tabClickedIcons[3]);
 
                     fab.setVisibility(View.INVISIBLE);
+
+                    fabText.setVisibility(View.GONE);
+                    fabPhoto.setVisibility(View.GONE);
+                    fabCamera.setVisibility(View.GONE);
 
                     headingText.setText("Messages");
                     break;
@@ -568,7 +623,21 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+            editor.putString("username", null);
+            editor.apply();
+
+            Intent loginIntent = new Intent(home_layout.this, login_layout.class);
+            home_layout.this.startActivity(loginIntent);
+            return true;
+        } else if(id == R.id.action_settings){
+            Intent settingsIntent = new Intent(home_layout.this, settings_layout.class);
+            home_layout.this.startActivity(settingsIntent);
+            return true;
+        }else if(id == R.id.action_feedback){
+            Intent feedbackIntent = new Intent(home_layout.this, feedback_intent.class);
+            home_layout.this.startActivity(feedbackIntent);
             return true;
         }
 
@@ -579,24 +648,24 @@ public class home_layout extends AppCompatActivity implements NavigationView.OnN
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        /*
         int id = item.getItemId();
 
-        if (id == R.id.nav_faq) {
-            Intent messagesIntent = new Intent(home_layout.this, messages_intent.class);
-            home_layout.this.startActivity(messagesIntent);
+        if (id == R.id.nav_settings) {
+
+            Intent settingsIntent = new Intent(home_layout.this, settings_layout.class);
+            home_layout.this.startActivity(settingsIntent);
+
+        } else if (id == R.id.nav_faq) {
+
 
         } else if (id == R.id.nav_feedback) {
-
-        } else if (id == R.id.nav_logout) {
-            SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-            editor.putString("username", null);
-            editor.apply();
-
-            Intent loginIntent = new Intent(home_layout.this, login_layout.class);
-            home_layout.this.startActivity(loginIntent);
+            Intent feedbackIntent = new Intent(home_layout.this, feedback_intent.class);
+            home_layout.this.startActivity(feedbackIntent);
+        } else if (id == R.id.nav_report) {
 
         }
-
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

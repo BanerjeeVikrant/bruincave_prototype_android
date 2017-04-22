@@ -65,15 +65,15 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabTextPost"
+        android:id="@+id/fabCameraPost"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="29dp"
-        android:layout_marginBottom="212dp"
-        android:src="@drawable/textcursor"
+        android:layout_marginBottom="274dp"
+        android:src="@drawable/iconcamera"
         app:backgroundTint="#1d2d4a"
-        android:scaleType="center" />
+        android:scaleType="centerInside" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPhotoPost"
@@ -81,10 +81,21 @@
         android:layout_height="56dp"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="29dp"
-        android:layout_marginBottom="150dp"
-        android:src="@drawable/iconcamera"
+        android:layout_marginBottom="212dp"
         app:backgroundTint="#1d2d4a"
-        android:scaleType="center" />
+        android:scaleType="centerInside"
+        android:src="@drawable/gallery" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabTextPost"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="29dp"
+        android:layout_marginBottom="150dp"
+        android:src="@drawable/textcursor"
+        app:backgroundTint="#1d2d4a"
+        android:scaleType="centerInside" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabPost"
@@ -97,7 +108,7 @@
         android:layout_marginBottom="75dp"
         android:src="@drawable/edit"
         app:backgroundTint="#1d2d4a"
-        android:scaleType="center" />
+        android:scaleType="centerInside" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

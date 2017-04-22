@@ -3,6 +3,7 @@ package com.bruincave.banerjee.bruincave_new;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,15 +24,35 @@ import org.json.JSONObject;
 
 public class login_layout extends AppCompatActivity {
 
+    private Typeface fontPTSerif, fontBitter;
+
+    private String usernameText, passwordText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_login_layout);
 
+        fontPTSerif = Typeface.createFromAsset(getAssets(),"fonts/PTSerif.ttf");
+        fontBitter = Typeface.createFromAsset(getAssets(),"fonts/Bitter.otf");
+
         final String MY_PREFS_NAME = "userinfo";
 
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                usernameText = "";
+                passwordText = "";
+            } else {
+                usernameText = extras.getString("usernamelogin");
+                passwordText = extras.getString("passwordlogin");
+            }
+        } else {
+            //profileuserid= (Integer) savedInstanceState.getSerializable("profileUserId");
+        }
 
         String username = prefs.getString("username", null);
         if (username != null) {
@@ -42,6 +64,16 @@ public class login_layout extends AppCompatActivity {
             //login
             final EditText user_login = (EditText) findViewById(R.id.lgUsername);
             final EditText user_pass = (EditText) findViewById(R.id.lgPassword);
+            final TextView tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
+            final TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
+
+            user_login.setText(usernameText);
+            user_pass.setText(passwordText);
+
+            user_login.setTypeface(fontPTSerif);
+            user_pass.setTypeface(fontPTSerif);
+            tvForgotPass.setTypeface(fontBitter);
+            tvTitle.setTypeface(fontBitter);
             final Button login_btn = (Button) findViewById(R.id.loginBtn);
 
             final Button register_intentBtn  = (Button) findViewById(R.id.registerStartBtn);

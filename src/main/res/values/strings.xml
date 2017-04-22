@@ -89,4 +89,7 @@
     <string name="title_activity_crush_intent">crush_intent</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_post_home_camera_intent">postHomeCamera_intent</string>
+    <string name="title_activity_upload_profile_pic">uploadProfilePic</string>
+    <string name="title_activity_post_camera_intent">postCamera_intent</string>
+    <string name="title_activity_feedback_intent">feedback_intent</string>
 </resources>

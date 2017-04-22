@@ -52,11 +52,10 @@ public class MessagesAdapter extends ArrayAdapter<Messages>{
         //new ImageLinkLoad(messages.userpic, userpic).execute();
         body.setText(messages.body);
         if(new String(messages.format).equals("1")){
-            final com.github.siyamed.shapeimageview.BubbleImageView imageView = new com.github.siyamed.shapeimageview.BubbleImageView(getContext());
+            final com.github.siyamed.shapeimageview.CircularImageView imageView = new com.github.siyamed.shapeimageview.CircularImageView(getContext());
             //imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             LinearLayout.LayoutParams layout_204 = new LinearLayout.LayoutParams((int)fPixel * 50,(int)fPixel * 50);
             imageView.setLayoutParams(layout_204);
-            imageView.setArrowPosition(BubbleShader.ArrowPosition.RIGHT);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (body.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) body.getLayoutParams();
@@ -65,7 +64,11 @@ public class MessagesAdapter extends ArrayAdapter<Messages>{
                 body.requestLayout();
             }
             messageBox.addView(imageView, 0);
-            new ImageLinkLoad(messages.userpic, imageView).execute();
+            if(messages.userpic.equals("http://www.bruincave.com/m/")){
+                imageView.setImageResource(R.drawable.defaultpic);
+            }else {
+                new ImageLinkLoad(messages.userpic, imageView).execute();
+            }
 
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)messageBox.getLayoutParams();

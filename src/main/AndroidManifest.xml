@@ -4,7 +4,7 @@
 
     <uses-feature
         android:name="android.hardware.camera2"
-        android:required="false" />
+        android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,7 +27,6 @@
             android:name="com.bruincave.banerjee.bruincave_new.profile_layout"
             android:label="@string/title_activity_profile_layout"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name="com.bruincave.banerjee.bruincave_new.settings_layout" />
         <activity
             android:name="com.bruincave.banerjee.bruincave_new.photos_intent"
             android:label="@string/title_activity_photos_intent"
@@ -103,6 +102,22 @@
         <activity
             android:name="com.bruincave.banerjee.bruincave_new.postHomeCamera_intent"
             android:label="@string/title_activity_post_home_camera_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.bruincave.banerjee.bruincave_new.uploadProfilePic"
+            android:label="@string/title_activity_upload_profile_pic"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.bruincave.banerjee.bruincave_new.postCamera_intent"
+            android:label="@string/title_activity_post_camera_intent"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.bruincave.banerjee.bruincave_new.settings_layout"
+            android:label="@string/title_activity_settings_layout"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.bruincave.banerjee.bruincave_new.feedback_intent"
+            android:label="@string/title_activity_feedback_intent"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

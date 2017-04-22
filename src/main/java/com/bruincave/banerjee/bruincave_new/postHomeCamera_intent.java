@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,12 +14,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -59,18 +63,28 @@ public class postHomeCamera_intent extends AppCompatActivity {
         loadedImage = (ImageView) findViewById(R.id.loadedImage);
         final EditText editText = (EditText)findViewById(R.id.captionText);
 
-        Button postImage = (Button) findViewById(R.id.btnPostHome);
+        ImageButton postImage = (ImageButton) findViewById(R.id.btnPostHome);
+
+        ImageButton backImage = (ImageButton) findViewById(R.id.backProfile);
+
+        backImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         postImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bitmap bitmap = null;
                 try {
-                    bitmap = ImageLoader.init().from(selectedPhoto).requestSize(1024, 1024).getBitmap();
+                    bitmap = ImageLoader.init().from(selectedPhoto).requestSize(512, 512).getBitmap();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                String encodedImage = ImageBase64.encode(bitmap);
+                //String encodedImage = ImageBase64.encode(bitmap);
+                String encodedImage = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100);
 
                 String caption = editText.getText().toString().trim();
 
@@ -92,7 +106,7 @@ public class postHomeCamera_intent extends AppCompatActivity {
                     }
                 }
 
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 11234);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 112934);
 
                 // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
                 // app-defined int constant that should be quite unique
@@ -101,12 +115,12 @@ public class postHomeCamera_intent extends AppCompatActivity {
                 return;
             } else{
                 galleryPhoto = new GalleryPhoto(getApplicationContext());
+                startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
             }
+        }else {
+            galleryPhoto = new GalleryPhoto(getApplicationContext());
+            startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
         }
-
-
-        startActivityForResult(galleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
-
 
     }
 
@@ -120,7 +134,9 @@ public class postHomeCamera_intent extends AppCompatActivity {
                 selectedPhoto = photoPath;
                 try {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
-                    loadedImage.setImageBitmap(bitmap);
+                    String encodedImg = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG,100);
+                    Bitmap bitmap2 = decodeBase64(encodedImg);
+                    loadedImage.setImageBitmap(bitmap2);
                 } catch (FileNotFoundException e) {
                     Toast.makeText(getApplicationContext(),
                             "Something Wrong while choosing photos", Toast.LENGTH_SHORT).show();
@@ -160,5 +176,17 @@ public class postHomeCamera_intent extends AppCompatActivity {
         SendPhotoData sendPhotoData = new SendPhotoData(caption, bitmap, username, photoListener);
         RequestQueue queue1 = Volley.newRequestQueue(getApplicationContext());
         queue1.add(sendPhotoData);
+    }
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality)
+    {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+    }
+
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.bruincave.banerjee.bruincave_new.postCamera_intent"
+    tools:showIn="@layout/activity_post_camera_intent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#1d2d4a"
+        android:id="@+id/topBar">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/backProfile"
+            android:src="@drawable/cross"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:scaleType="centerInside"
+            android:padding="15dp"
+            android:background="@drawable/ripple" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/btnPostHome"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/check"
+            android:scaleType="centerInside"
+            android:padding="15dp"
+            android:background="@drawable/ripple"
+            android:textColor="#fff" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/captionText"
+        android:hint="Write about the Photo..."
+        android:textSize="19dp"
+        android:padding="15dp"
+        android:gravity="top|left"
+        android:layout_below="@id/topBar"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentBottom="false" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadedImage"
+        android:scaleType="fitXY"
+        android:layout_below="@id/captionText" />
+</RelativeLayout>

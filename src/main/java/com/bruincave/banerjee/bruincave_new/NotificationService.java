@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -20,6 +22,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -81,10 +87,22 @@ public class NotificationService extends Service {
                         for (int i = 0; i < postArray.length(); i++) {
                             JSONObject usersObject = postArray.getJSONObject(i);
 
-                            String fromUserInfo = usersObject.getString("fromuser");
-                            String bodyInfo = usersObject.getString("message");
+                            int type = usersObject.getInt("type");
+                            String fromUserInfo = usersObject.getString("fullfromuser");
                             String profilepic = usersObject.getString("frompic");
-                            createNotification(fromUserInfo, bodyInfo, profilepic);
+
+                            if(type == 0) {
+                                String bodyInfo = usersObject.getString("message");
+                                int fromUserId = usersObject.getInt("fromid");
+                                new generatePictureStyleNotification(getApplicationContext(), fromUserInfo, fromUserId, bodyInfo, profilepic).execute();
+                            }
+                            else if(type == 1){
+                                String bodyInfo = fromUserInfo + " " + usersObject.getString("message");
+                                int postinsertedId = usersObject.getInt("postinsertedid");
+                                int fromUserId = usersObject.getInt("commentpostid");
+                                new NotifyOnComment(getApplicationContext(), "bruincave", fromUserId, postinsertedId, bodyInfo, profilepic).execute();
+                            }
+
                             Log.d("Service", "InsideResponse");
                         }
 
@@ -101,37 +119,6 @@ public class NotificationService extends Service {
         queue.add(getNotify);
 
         Log.d("Service", "InsideFunction");
-
-    }
-
-    public void createNotification(String contentTitle, String contentText, String icon){
-
-        Intent intent = new Intent(this, NotificationService.class);
-
-        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(this);
-        taskStackBuilder.addParentStack(home_layout.class);
-        taskStackBuilder.addNextIntent(intent);
-
-        PendingIntent pendingIntent = taskStackBuilder.
-                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification notification = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.likedpaw)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText)
-                .setAutoCancel(true)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_SOUND)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        Random r = new Random();
-        int Low = 0;
-        int High = 1000000;
-        int Result = r.nextInt(High-Low) + Low;
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Result, notification);
 
     }
 

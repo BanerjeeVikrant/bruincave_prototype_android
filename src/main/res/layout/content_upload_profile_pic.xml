@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.bruincave.banerjee.bruincave_new.uploadProfilePic"
+    tools:showIn="@layout/activity_upload_profile_pic">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="#1d2d4a"
+        android:id="@+id/topBar">
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/backProfile"
+            android:src="@drawable/cross"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/ripple"
+            android:scaleType="centerInside"
+            android:padding="18dp" />
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/uploadPicture"
+            android:src="@drawable/check"
+            android:background="@drawable/ripple"
+            android:scaleType="centerInside"
+            android:padding="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/loadedImage"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:siBorderWidth="5dp"
+        app:siBorderColor="@color/themecolor"
+        android:scaleType="centerCrop" />
+
+</RelativeLayout>

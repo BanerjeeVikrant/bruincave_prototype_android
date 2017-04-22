@@ -14,7 +14,9 @@
         android:background="#4080ff"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:scaleType="centerInside"
+        android:padding="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,6 +39,7 @@
         android:background="@drawable/registershape"
         android:textColor="#fff"
         android:textColorHint="#fff"
+        android:textCursorDrawable="@drawable/color_cursor"
         android:hint="Date of Birth"
         android:inputType="date"
         android:layout_marginLeft="15dp"

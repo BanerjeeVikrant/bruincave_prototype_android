@@ -79,7 +79,7 @@ public class messages_intent extends AppCompatActivity {
                 Log.d("Now", profileuserid + "");
             }
         } else {
-            profileuserid= (Integer) savedInstanceState.getSerializable("profileUserId");
+            //profileuserid= (Integer) savedInstanceState.getSerializable("profileUserId");
         }
 
         ImageButton backMessage = (ImageButton) findViewById(R.id.backProfile);
