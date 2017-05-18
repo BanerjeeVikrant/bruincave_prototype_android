@@ -194,6 +194,10 @@ public class post_intent extends AppCompatActivity {
                             TextView username_body = (TextView) commentView.findViewById(R.id.commentUsernameOne);
                             com.github.siyamed.shapeimageview.CircularImageView pic_body = (com.github.siyamed.shapeimageview.CircularImageView) commentView.findViewById(R.id.commentProfilePicOne);
 
+                            comment_body.setTypeface(fontPTSerif);
+                            name_body.setTypeface(fontBitter);
+                            username_body.setTypeface(fontPTSerif);
+
                             comment_body.setText(commentBody);
                             name_body.setText(commentFrom);
                             username_body.setText("@"+commentUsername);

@@ -53,7 +53,6 @@ public class login_layout extends AppCompatActivity {
         } else {
             //profileuserid= (Integer) savedInstanceState.getSerializable("profileUserId");
         }
-
         String username = prefs.getString("username", null);
         if (username != null) {
             Intent homeIntent = new Intent(login_layout.this, home_layout.class);

@@ -48,7 +48,6 @@
                 android:orientation="vertical"
                 android:paddingBottom="10dp"
                 android:paddingTop="@dimen/feed_item_padding_top_bottom"
-                android:layout_marginTop="15dp"
                 android:layout_marginBottom="-10dp"
                 android:id="@+id/relbody1">
 
@@ -78,11 +77,11 @@
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="23dp"
+                            android:textSize="21dp"
                             android:text="Loading.."
                             android:paddingLeft="5dp"
-                            android:layout_marginBottom="3dp"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="1dp"
+                            android:layout_marginTop="7dp"
                             android:textColor="#000" />
 
                         <TextView
@@ -90,7 +89,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/timestamp"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:text="Loading.."
                             android:paddingLeft="5dp"
                             android:layout_below="@id/name"/>
@@ -102,11 +101,10 @@
                     android:id="@+id/txtStatusMsg"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="@dimen/feed_item_status_pad_left_right"
                     android:paddingRight="@dimen/feed_item_status_pad_left_right"
-                    android:paddingTop="@dimen/feed_item_status_pad_top"
-                    android:textSize="25dp"
+                    android:paddingTop="5dp"
+                    android:textSize="23dp"
                     android:text="Loading"
                     android:layout_below="@+id/layoutBody"
                     android:layout_alignParentStart="true" />
@@ -114,12 +112,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Loading"
                     android:id="@+id/timestamp"
                     android:layout_below="@id/txtStatusMsg"
                     android:layout_marginLeft="15dp"
-                    android:textColor="#b1b1b1" />
+                    android:textColor="#b1b1b1"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="5dp" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -198,7 +197,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/comments_section"
-                android:layout_below="@id/likeBody">
+                android:layout_below="@id/likeBody"
+                android:background="#414141">
 
             </LinearLayout>
 

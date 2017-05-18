@@ -184,19 +184,19 @@ public class profile_layout extends AppCompatActivity {
                                 info.add(newPost);
                             }
                         }
-
+                        /*
                         ListView postListView = (ListView) findViewById(R.id.profileListView);
-
 
                         if (offset == 0) {
                             postAdapter = new PostAdapter(getApplicationContext(), info);
-                            postAdapter.setForProfile();
+                            //postAdapter.setForProfile();
                             postListView.setAdapter(postAdapter);
                         }else {
                             postAdapter.addAll(info);
                         }
 
                         offset = offset + 5;
+                        */
                     }
 
                 } catch (JSONException e) {
@@ -209,5 +209,4 @@ public class profile_layout extends AppCompatActivity {
         queue.add(getPost);
 
     }
-
 }

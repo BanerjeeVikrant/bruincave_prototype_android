@@ -1,10 +1,13 @@
 package com.bruincave.banerjee.bruincave_new;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,8 +27,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.banerjee.bruincave_new.R;
-import com.kosalgeek.android.photoutil.CameraPhoto;
-import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 
 import org.json.JSONException;
@@ -86,13 +87,42 @@ public class postCamera_intent extends AppCompatActivity {
             }
         });
 
-        cameraPhoto = new CameraPhoto(getApplicationContext());
-        try {
-            startActivityForResult(cameraPhoto.takePhotoIntent(), CAMERA_REQUEST);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale(
+                            Manifest.permission.CAMERA)) {
+                        // Explain to the user why we need to read the contacts
+                    }
+                }
+
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, 112934);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant that should be quite unique
+
+
+                return;
+            } else{
+                cameraPhoto = new CameraPhoto(getApplicationContext());
+                try {
+                    startActivityForResult(cameraPhoto.takePhotoIntent(), CAMERA_REQUEST);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                cameraPhoto.addToGallery();
+            }
+        }else {
+            cameraPhoto = new CameraPhoto(getApplicationContext());
+            try {
+                startActivityForResult(cameraPhoto.takePhotoIntent(), CAMERA_REQUEST);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             cameraPhoto.addToGallery();
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(),
-                    "Something Wrong while taking photos", Toast.LENGTH_SHORT).show();
         }
 
     }

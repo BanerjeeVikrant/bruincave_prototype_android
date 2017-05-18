@@ -58,7 +58,7 @@ public class NotificationService extends Service {
     TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            Log.d("Service", "Running");
+            //Log.d("Service", "Running");
             doNotifications();
         }
     };
@@ -79,7 +79,7 @@ public class NotificationService extends Service {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.d("Service:", response);
+                   // Log.d("Service:", response);
                     JSONObject jsonResponse = new JSONObject(response);
 
                     if (jsonResponse != null) {
@@ -105,8 +105,6 @@ public class NotificationService extends Service {
 
                             Log.d("Service", "InsideResponse");
                         }
-
-                        Log.d("Service", "InsideIf");
                     }
 
                 } catch (JSONException e) {
@@ -117,8 +115,6 @@ public class NotificationService extends Service {
         GetNotify getNotify = new GetNotify(username, postidListener);
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(getNotify);
-
-        Log.d("Service", "InsideFunction");
 
     }
 

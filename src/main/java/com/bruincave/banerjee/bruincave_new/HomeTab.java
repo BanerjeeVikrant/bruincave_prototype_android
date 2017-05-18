@@ -9,11 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -39,6 +44,12 @@ public class HomeTab extends Fragment{
     private int offsetAllJun = 0;
     private int offsetAllSen = 0;
 
+    public boolean isLoadingAll = false;
+    public boolean isLoadingSop = false;
+    public boolean isLoadingJun = false;
+    public boolean isLoadingSen = false;
+    public boolean isLoading = false;
+
     private int preLast = 0;
     private int preLastAll = 0;
     private int preLastAllSop = 0;
@@ -61,6 +72,7 @@ public class HomeTab extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.d("XXX","HomeTab onCreate");
 
     }
@@ -78,21 +90,98 @@ public class HomeTab extends Fragment{
         offsetAllSop = 0;
         offsetAllJun = 0;
         offsetAllSen = 0;
+        View view = inflater.inflate(R.layout.home_tab, container, false);
+        /*
+        RecyclerView rView =  (RecyclerView) view.findViewById(R.id.listView);
+        rView.setAdapter(new PostAdapter(getContext(),null));
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rView.setLayoutManager(llm);
 
-        return inflater.inflate(R.layout.home_tab, container, false);
+        rView =  (RecyclerView) view.findViewById(R.id.listView2);
+        rView.setAdapter(new PostAdapter(getContext(),null));
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rView.setLayoutManager(llm);
+
+        rView =  (RecyclerView) view.findViewById(R.id.listViewSop);
+        rView.setAdapter(new PostAdapter(getContext(),null));
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rView.setLayoutManager(llm);
+
+        rView =  (RecyclerView) view.findViewById(R.id.listViewJun);
+        rView.setAdapter(new PostAdapter(getContext(),null));
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rView.setLayoutManager(llm);
+
+        rView =  (RecyclerView) view.findViewById(R.id.listViewSen);
+        rView.setAdapter(new PostAdapter(getContext(),null));
+        llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rView.setLayoutManager(llm);
+        */
+
+        return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
         Log.d("XXX","HomeTab onStart");
 
-        ListView postAllListView = (ListView) getView().findViewById(R.id.listView);
-        ListView postAllListViewSop = (ListView) getView().findViewById(R.id.listViewSop);
-        ListView postAllListViewJun = (ListView) getView().findViewById(R.id.listViewJun);
-        ListView postAllListViewSen = (ListView) getView().findViewById(R.id.listViewSen);
-        ListView postListView = (ListView) getView().findViewById(R.id.listView2);
+        final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
+        //RecyclerView postAllListView = (RecyclerView) getView().findViewById(R.id.listView);
+        //RecyclerView postAllListViewSop = (RecyclerView) getView().findViewById(R.id.listViewSop);
+        //RecyclerView postAllListViewJun = (RecyclerView) getView().findViewById(R.id.listViewJun);
+        //RecyclerView postAllListViewSen = (RecyclerView) getView().findViewById(R.id.listViewSen);
+        //RecyclerView postListView = (RecyclerView) getView().findViewById(R.id.listView2);
+
 
         if(createTab) {
+
+/*
+            postListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                private int currentVisibleItemCount;
+                private int currentScrollState;
+                private int currentFirstVisibleItem;
+                private int totalItem;
+
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    // TODO Auto-generated method stub
+                    this.currentScrollState = scrollState;
+                    this.isScrollCompleted();
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem,
+                    int visibleItemCount, int totalItemCount) {
+                    // TODO Auto-generated method stub
+                    this.currentFirstVisibleItem = firstVisibleItem;
+                    this.currentVisibleItemCount = visibleItemCount;
+                    this.totalItem = totalItemCount;
+
+                    Log.d("ScrollLog", "scrollStateChanged");
+                    toolbar.setVisibility(View.GONE);
+
+                }
+
+                private void isScrollCompleted() {
+                    if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                         && this.currentScrollState == SCROLL_STATE_IDLE) {
+                     toolbar.setVisibility(View.VISIBLE);
+                     Log.d("ScrollLog", "scrolling");
+
+                    }
+                }
+            });
+
+            */
+
+
             SharedPreferences prefs = this.getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
             username = prefs.getString("username", null);
 
@@ -199,13 +288,14 @@ public class HomeTab extends Fragment{
             tabHost.addTab(tab5);
 
 
-            footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
-
+         //   footerView =  ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, null, false);
+/*
             postAllListView.addFooterView(footerView);
             postAllListViewSop.addFooterView(footerView);
             postAllListViewJun.addFooterView(footerView);
             postAllListViewSen.addFooterView(footerView);
             postListView.addFooterView(footerView);
+            */
         }
         if(getView() != null) {
             bringPostsAll(getArguments().getString("username"), "");
@@ -215,15 +305,15 @@ public class HomeTab extends Fragment{
             bringPostsAllSen(getArguments().getString("username"), "");
         }
 
-
-        postListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+/*
+        postListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(RecyclerView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLast!=lastItem) {
@@ -239,15 +329,16 @@ public class HomeTab extends Fragment{
                 }
             }
         });
-
-        postAllListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+*/
+        /*
+        postAllListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(RecyclerView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAll!=lastItem) {
@@ -262,15 +353,16 @@ public class HomeTab extends Fragment{
                 }
             }
         });
-
-        postAllListViewSop.setOnScrollListener(new AbsListView.OnScrollListener() {
+*/
+        /*
+        postAllListViewSop.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(RecyclerView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllSop!=lastItem) {
@@ -285,15 +377,16 @@ public class HomeTab extends Fragment{
                 }
             }
         });
-
-        postAllListViewJun.setOnScrollListener(new AbsListView.OnScrollListener() {
+        */
+/*
+        postAllListViewJun.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(RecyclerView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllJun!=lastItem) {
@@ -308,15 +401,16 @@ public class HomeTab extends Fragment{
                 }
             }
         });
-
-        postAllListViewSen.setOnScrollListener(new AbsListView.OnScrollListener() {
+        */
+/*
+        postAllListViewSen.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(RecyclerView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if(lastItem == totalItemCount) {
                     if(preLastAllSen!=lastItem) {
@@ -331,68 +425,31 @@ public class HomeTab extends Fragment{
                 }
             }
         });
-
+*/
     }
 
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-//        final TabHost tabHost = (TabHost) getView().findViewById(R.id.tabHost);
-/*
-        if(menuVisible){
-            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-
-                public void onTabChanged(String tabId) {
-                switch (tabHost.getCurrentTab()) {
-                    case 0:
-                        headingText.setText("Freshmen");
-                        Log.d("Nowit", "thischangingit");
-                        break;
-                    case 1:
-                        headingText.setText("Sophomore");
-                        break;
-                    case 2:
-                        headingText.setText("Junior");
-                        break;
-                    case 3:
-                        headingText.setText("Senior");
-                        break;
-                    case 4:
-                        headingText.setText("Favorites");
-                        break;
-                    default:
-
-                        break;
-                }
-
-                }
-            });
-        }
-        */
     }
 
     PostAdapter postAdapter = null;
     public void bringPosts(String username, String profileUser) {
-        Log.d("bringpost", offset + "," + profileUser);
+        isLoading = true;
+        final String currUserName = username;
         final View currView = getView();
+        final HomeTab homeTab = this;
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.d("disapearpost", response);
                     Log.d("RSPXXX:", response);
                     JSONObject jsonResponse = new JSONObject(response);
 
                     if (jsonResponse != null) {
                         JSONArray home = jsonResponse.getJSONArray("home");
-                        //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
-
-                        if(home.length() == 0){
-                            ListView postListView = (ListView) currView.findViewById(R.id.listView2);
-                            postListView.removeFooterView(footerView);
-                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -423,51 +480,70 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                            ListView postListView = (ListView) currView.findViewById(R.id.listView2);
+                        //RecyclerView postListView = (RecyclerView) currView.findViewById(R.id.listView2);
+                        LinearLayout containerFav = (LinearLayout) currView.findViewById(R.id.containerFav);
+                        if (offset == 0) {
+                            RecyclerView postFav = new RecyclerView(getContext());
+                            containerFav.addView(postFav);
+                            postAdapter = new PostAdapter(getContext(), info);
+                            postFav.setAdapter(postAdapter);
+                            final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                            llm.setOrientation(LinearLayoutManager.VERTICAL);
+                            postFav.setLayoutManager(llm);
+                            postFav.addOnScrollListener(new RecyclerView.OnScrollListener(){
+                                int pastVisiblesItems, visibleItemCount, totalItemCount;
 
+                                @Override
+                                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                    if(dy > 0) //check for scroll down
+                                    {
+                                        visibleItemCount = llm.getChildCount();
+                                        totalItemCount = llm.getItemCount();
+                                        pastVisiblesItems = llm.findFirstVisibleItemPosition();
+                                        Log.d("blahFre", offset + ":" + pastVisiblesItems + "+" + visibleItemCount + ">=" + totalItemCount);
 
+                                        if (!homeTab.isLoading)
+                                        {
+                                            if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                                            {
+                                                homeTab.bringPostsAll(getArguments().getString("username"), "");
 
-                        if(postListView.getAdapter()==null)
-                            if (offset == 0) {
-                                postAdapter = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapter);
-                            }else {
-                                postAdapter.addAll(info);
-                            }
-                        else{
-                            if (offset == 0) {
-                                postAdapter = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapter);
-                            }else {
-                                postAdapter.addAll(info);
-                            }
+                                                Log.d("blahFre", offset + ": loading now");
+                                                //Do pagination.. i.e. fetch new data
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+                            Log.d("ADPTR",  "Fav after setAdapter n setLayoutManager");
+                        } else {
+                            RecyclerView postFav = (RecyclerView) containerFav.getChildAt(0);
+                            postAdapter = (PostAdapter)postFav.getAdapter();
+                            postAdapter.addAll(info);
                             postAdapter.notifyDataSetChanged();
                         }
-
                         offset = offset + 5;
+                        homeTab.isLoading = false;
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("Finish", "listView2");
-                    ListView postListView = (ListView) currView.findViewById(R.id.listView2);
-                    Log.d("disapearpost", response);
-                    postListView.removeFooterView(footerView);
+                    Log.d("ADPTR", "catch for Fav");
                 }
             }
         };
-        Log.d("Finish", "listView2");
+        Log.d("ADPTR", "Finish Fav bringPosts()");
         GetPost getPost = new GetPost(offset, username, profileUser, 0, 0, postListener);
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(getPost);
-
     }
 
     PostAdapter postAdapterAll = null;
     public void bringPostsAll(String username, String profileUser) {
-        Log.d("username", username);
-        Log.d("profileusername", profileUser);
+        isLoadingAll = true;
         final View currView = getView();
+        final HomeTab homeTab = this;
+        int offsetNow;
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -480,13 +556,8 @@ public class HomeTab extends Fragment{
                         JSONArray home = jsonResponse.getJSONArray("home");
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
-
                         Log.d("Debug", "inside json");
 
-                        if(home.length() == 0){
-                            ListView postListView = (ListView) currView.findViewById(R.id.listView);
-                            postListView.removeFooterView(footerView);
-                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -518,32 +589,56 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) currView.findViewById(R.id.listView);
+                        LinearLayout containerFrs = (LinearLayout) currView.findViewById(R.id.containerFrs);
 
-                        if(postListView.getAdapter()==null)
-                            if (offsetAll == 0) {
-                                postAdapterAll = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAll);
-                            }else {
-                                postAdapterAll.addAll(info);
-                            }
-                        else{
-                            if (offsetAll == 0) {
-                                postAdapterAll = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAll);
-                            }else {
-                                postAdapterAll.addAll(info);
-                            }
-                            postAdapterAll.notifyDataSetChanged();
+                        if (offsetAll == 0) {
+                            final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                            llm.setOrientation(LinearLayoutManager.VERTICAL);
+                            RecyclerView postFrs = new RecyclerView(getContext());
+                            postFrs.addOnScrollListener(new RecyclerView.OnScrollListener(){
+                                int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+                                @Override
+                                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                    if(dy > 0) //check for scroll down
+                                    {
+                                        visibleItemCount = llm.getChildCount();
+                                        totalItemCount = llm.getItemCount();
+                                        pastVisiblesItems = llm.findFirstVisibleItemPosition();
+                                        Log.d("blahFre", offsetAll + ":" + pastVisiblesItems + "+" + visibleItemCount + ">=" + totalItemCount);
+
+                                        if (!homeTab.isLoadingAll)
+                                        {
+                                            if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                                            {
+                                                homeTab.bringPostsAll(getArguments().getString("username"), "");
+
+                                                Log.d("blahFre", offsetAll + ": loading now");
+                                                //Do pagination.. i.e. fetch new data
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            containerFrs.addView(postFrs);
+                            postAdapter = new PostAdapter(getContext(), info);
+                            postFrs.setAdapter(postAdapter);
+                            postFrs.setLayoutManager(llm);
+                            Log.d("ADPTR",  "Frs after setAdapter n setLayoutManager :"+postAdapter.getItemCount());
+                        } else {
+                            RecyclerView postFrs = (RecyclerView) containerFrs.getChildAt(0);
+                            postAdapter = (PostAdapter) postFrs.getAdapter();
+                            postAdapter.addAll(info);
+                            postAdapter.notifyDataSetChanged();
+                            Log.d("ADPTR",  "Frs addmore info: "+postAdapter.getItemCount());
                         }
-
                         offsetAll = offsetAll + 5;
-                    }
+                        homeTab.isLoadingAll = false;}
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) currView.findViewById(R.id.listView);
-                    postListView.removeFooterView(footerView);
+//                    RecyclerView postListView = (RecyclerView) currView.findViewById(R.id.listView);
+//                    postListView.removeFooterView(footerView);
                 }
             }
         };
@@ -551,14 +646,15 @@ public class HomeTab extends Fragment{
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(getPost);
 
+
     }
 
     PostAdapter postAdapterAllSop = null;
-    public void bringPostsAllSop(String username, String profileUser) {
-        Log.d("username", username);
-        Log.d("profileusername", profileUser);
-        Log.d("debug", "called sop");
+    public void bringPostsAllSop(final String username, String profileUser) {
+        isLoadingSop = true;
+        final String currUserName = username;
         final View currView = getView();
+        final HomeTab homeTab = this;
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -574,10 +670,6 @@ public class HomeTab extends Fragment{
                         ArrayList<Post> info = new ArrayList<Post>();
 
                         Log.d("Debug", "inside json");
-                        if(home.length() == 0){
-                            ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
-                            postListView.removeFooterView(footerView);
-                        }
 
                         for (int i = 0; i < home.length(); i++) {
                             JSONObject post = home.getJSONObject(i);
@@ -609,49 +701,67 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
+                        LinearLayout containerSop = (LinearLayout) currView.findViewById(R.id.containerSop);
 
-                        if(postListView.getAdapter()==null)
-                            if (offsetAllSop == 0) {
-                                postAdapterAllSop = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllSop);
-                            }else {
-                                postAdapterAllSop.addAll(info);
-                            }
-                        else{
-                            if (offsetAllSop == 0) {
-                                postAdapterAllSop = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllSop);
-                            }else {
-                                postAdapterAllSop.addAll(info);
-                            }
-                            postAdapterAllSop.notifyDataSetChanged();
+                        if (offsetAllSop == 0) {
+                            final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                            llm.setOrientation(LinearLayoutManager.VERTICAL);
+                            RecyclerView postSop = new RecyclerView(getContext());
+                            postSop.addOnScrollListener(new RecyclerView.OnScrollListener(){
+                                int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+                                @Override
+                                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                    if(dy > 0) //check for scroll down
+                                    {
+                                        visibleItemCount = llm.getChildCount();
+                                        totalItemCount = llm.getItemCount();
+                                        pastVisiblesItems = llm.findFirstVisibleItemPosition();
+                                        Log.d("blahFre", offsetAll + ":" + pastVisiblesItems + "+" + visibleItemCount + ">=" + totalItemCount);
+
+                                        if (!homeTab.isLoadingSop)
+                                        {
+                                            if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                                            {
+                                                homeTab.bringPostsAll(getArguments().getString("username"), "");
+
+                                                Log.d("blahFre", offsetAll + ": loading now");
+                                                //Do pagination.. i.e. fetch new data
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            postSop.setLayoutManager(llm);
+                            containerSop.addView(postSop);
+                            postAdapter = new PostAdapter(getContext(), info);
+                            postSop.setAdapter(postAdapter);
+                            Log.d("ADPTR",  "Sop after setAdapter n setLayoutManager");
+                        } else {
+                            RecyclerView postSop = (RecyclerView) containerSop.getChildAt(0);
+                            postAdapter = (PostAdapter) postSop.getAdapter();
+                            postAdapter.addAll(info);
+                            postAdapter.notifyDataSetChanged();
                         }
-
                         offsetAllSop = offsetAllSop + 5;
+                        homeTab.isLoadingSop = false;
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) currView.findViewById(R.id.listViewSop);
-
-                    postListView.removeFooterView(footerView);
-
-                    Log.d("disapear", "try");
                 }
             }
         };
         GetPost getPost = new GetPost(offsetAllSop, username, profileUser, 0, 2, postListener);
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(getPost);
-
     }
 
     PostAdapter postAdapterAllJun = null;
     public void bringPostsAllJun(String username, String profileUser) {
-        Log.d("username", username);
-        Log.d("profileusername", profileUser);
+        isLoadingJun = true;
+        final String currUserName = username;
         final View currView = getView();
+        final HomeTab homeTab = this;
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -665,10 +775,6 @@ public class HomeTab extends Fragment{
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
 
-                        if(home.length() == 0){
-                            ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
-                            postListView.removeFooterView(footerView);
-                        }
                         Log.d("Debug", "inside json");
 
                         for (int i = 0; i < home.length(); i++) {
@@ -702,48 +808,70 @@ public class HomeTab extends Fragment{
                             //bringComments(post.getInt("id"));
                         }
                         if (getView() !=  null) {
-                            ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
+                            LinearLayout containerJun = (LinearLayout) currView.findViewById(R.id.containerJun);
 
-                            if (postListView.getAdapter() == null)
-                                if (offsetAllJun == 0) {
-                                    postAdapterAllJun = new PostAdapter(getContext(), info);
-                                    postListView.setAdapter(postAdapterAllJun);
-                                } else {
-                                    postAdapterAllJun.addAll(info);
-                                }
-                            else {
-                                if (offsetAllJun == 0) {
-                                    postAdapterAllJun = new PostAdapter(getContext(), info);
-                                    postListView.setAdapter(postAdapterAllJun);
-                                } else {
-                                    postAdapterAllJun.addAll(info);
-                                }
-                                postAdapterAllJun.notifyDataSetChanged();
+                            if (offsetAllJun == 0) {
+                                RecyclerView postJun = new RecyclerView(getContext());
+                                containerJun.addView(postJun);
+                                postAdapter = new PostAdapter(getContext(), info);
+                                postJun.setAdapter(postAdapter);
+                                final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                                postJun.setLayoutManager(llm);
+                                postJun.addOnScrollListener(new RecyclerView.OnScrollListener(){
+                                    int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+                                    @Override
+                                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                        if(dy > 0) //check for scroll down
+                                        {
+                                            visibleItemCount = llm.getChildCount();
+                                            totalItemCount = llm.getItemCount();
+                                            pastVisiblesItems = llm.findFirstVisibleItemPosition();
+                                            Log.d("blahFre", offsetAll + ":" + pastVisiblesItems + "+" + visibleItemCount + ">=" + totalItemCount);
+
+                                            if (!homeTab.isLoadingJun)
+                                            {
+                                                if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                                                {
+                                                    homeTab.bringPostsAll(getArguments().getString("username"), "");
+
+                                                    Log.d("blahFre", offsetAll + ": loading now");
+                                                    //Do pagination.. i.e. fetch new data
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                Log.d("ADPTR",  "Jun after setAdapter n setLayoutManager");
+                            } else {
+                                RecyclerView postJun = (RecyclerView) containerJun.getChildAt(0);
+                                postAdapter = (PostAdapter) postJun.getAdapter();
+                                postAdapter.addAll(info);
+                                postAdapter.notifyDataSetChanged();
                             }
 
                             offsetAllJun = offsetAllJun + 5;
+                            homeTab.isLoadingJun = false;
                         }
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) currView.findViewById(R.id.listViewJun);
-
-                    postListView.removeFooterView(footerView);
                 }
             }
         };
         GetPost getPost = new GetPost(offsetAllJun, username, profileUser, 0, 3, postListener);
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(getPost);
-
     }
 
     PostAdapter postAdapterAllSen = null;
     public void bringPostsAllSen(String username, String profileUser) {
-        Log.d("username", username);
-        Log.d("profileusername", profileUser);
+        isLoadingSen = true;
+        final String currUserName = username;
         final View currView = getView();
+        final HomeTab homeTab = this;
         Response.Listener<String> postListener = new Response.Listener<String>() {
             private String[] info;
             @Override
@@ -756,10 +884,7 @@ public class HomeTab extends Fragment{
                         JSONArray home = jsonResponse.getJSONArray("home");
                         //LinearLayout homeLayout = (LinearLayout) findViewById(R.id.homeScroll);
                         ArrayList<Post> info = new ArrayList<Post>();
-                        if(home.length() == 0){
-                            ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
-                            postListView.removeFooterView(footerView);
-                        }
+
                         Log.d("Debug", "inside json");
 
                         for (int i = 0; i < home.length(); i++) {
@@ -792,33 +917,55 @@ public class HomeTab extends Fragment{
                             info.add(newPost);
                             //bringComments(post.getInt("id"));
                         }
-                        ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
+                        LinearLayout containerSen = (LinearLayout) currView.findViewById(R.id.containerSen);
 
-                        if(postListView.getAdapter()==null)
-                            if (offsetAllSen == 0) {
-                                postAdapterAllSen = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllSen);
-                            }else {
-                                postAdapterAllSen.addAll(info);
-                            }
-                        else{
-                            if (offsetAllSen == 0) {
-                                postAdapterAllSen = new PostAdapter(getContext(), info);
-                                postListView.setAdapter(postAdapterAllSen);
-                            }else {
-                                postAdapterAllSen.addAll(info);
-                            }
-                            postAdapterAllSen.notifyDataSetChanged();
+                        if (offsetAllSen == 0) {
+                            RecyclerView postSen = new RecyclerView(getContext());
+                            containerSen.addView(postSen);
+                            postAdapter = new PostAdapter(getContext(), info);
+                            postSen.setAdapter(postAdapter);
+                            final LinearLayoutManager llm = new LinearLayoutManager(getContext());
+                            llm.setOrientation(LinearLayoutManager.VERTICAL);
+                            postSen.setLayoutManager(llm);
+                            postSen.addOnScrollListener(new RecyclerView.OnScrollListener(){
+                                int pastVisiblesItems, visibleItemCount, totalItemCount;
+
+                                @Override
+                                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                    if(dy > 0) //check for scroll down
+                                    {
+                                        visibleItemCount = llm.getChildCount();
+                                        totalItemCount = llm.getItemCount();
+                                        pastVisiblesItems = llm.findFirstVisibleItemPosition();
+                                        Log.d("blahFre", offsetAll + ":" + pastVisiblesItems + "+" + visibleItemCount + ">=" + totalItemCount);
+
+                                        if (!homeTab.isLoadingSen)
+                                        {
+                                            if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
+                                            {
+                                                homeTab.bringPostsAll(getArguments().getString("username"), "");
+
+                                                Log.d("blahFre", offsetAll + ": loading now");
+                                                //Do pagination.. i.e. fetch new data
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            Log.d("ADPTR",  "Sen after setAdapter n setLayoutManager");
+                        } else {
+                            RecyclerView postSen = (RecyclerView) containerSen.getChildAt(0);
+                            postAdapter = (PostAdapter) postSen.getAdapter();
+                            postAdapter.addAll(info);
+                            postAdapter.notifyDataSetChanged();
                         }
 
                         offsetAllSen = offsetAllSen + 5;
+                        homeTab.isLoadingSen = false;
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    ListView postListView = (ListView) currView.findViewById(R.id.listViewSen);
-
-                    postListView.removeFooterView(footerView);
                 }
             }
         };
